@@ -77,7 +77,7 @@
 "Mod+Ctrl+Period"       = "window-consume-from-right"
 
 # Requer layout.mode = "dwindle".
-# "Mod+Alt+T" = "layout-toggle-split"
+# "Mod+Alt+T"             = "layout-toggle-split"
 "Mod+W"                 = { action = "column-toggle-tabbed", repeat = false }
 "Mod+Alt+Right"         = "column-focus-tab-next"
 "Mod+Alt+Left"          = "column-focus-tab-previous"
@@ -89,9 +89,9 @@
 
 #  ╭─ ✦ Workspaces ───────────────────────────────────────────────────────
 # Move o workspace inteiro, mantendo nome, layout e janelas.
-# "Mod+Ctrl+Page_Down" = "workspace-move-to-output-next"
-# "Mod+Ctrl+Page_Up" = "workspace-move-to-output-previous"
-# "Mod+Ctrl+W" = "workspace-move-to-output current WEB --output DP-1"
+# "Mod+Ctrl+Page_Down"    = "workspace-move-to-output-next"
+# "Mod+Ctrl+Page_Up"      = "workspace-move-to-output-previous"
+# "Mod+Ctrl+W"            = "workspace-move-to-output current WEB --output DP-1"
 "Mod+1"                 = "workspace-switch 1"
 "Mod+2"                 = "workspace-switch 2"
 "Mod+3"                 = "workspace-switch 3"
