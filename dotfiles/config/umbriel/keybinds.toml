@@ -113,10 +113,11 @@
 "Mod+Shift+9"           = "window-move-to-workspace 9"
 
 #  ╭─ ✦ Scratchpads ──────────────────────────────────────────────────────
-"Mod+Shift+Space"       = { action = "window-move-to-scratchpad", repeat = false }
+# Mod+S abre/fecha o scratchpad ativo.
 "Mod+S"                 = { action = "scratchpad-toggle", repeat = false }
-"Mod+Ctrl+Space"        = { action = "window-restore-from-scratchpad", repeat = false }
-"Mod+Shift+S"           = { action = "scratchpad-focus-next", repeat = false }
+"Mod+Shift+S"           = { action = "window-move-to-scratchpad", repeat = false }
+"Mod+Ctrl+S"            = { action = "scratchpad-focus-next", repeat = false }
+"Mod+Alt+S"             = { action = "window-restore-from-scratchpad", repeat = false }
 
 #  ╭─ ✦ Overview ─────────────────────────────────────────────────────────
 "Mod+Tab"               = { action = "overview-toggle", repeat = false }
