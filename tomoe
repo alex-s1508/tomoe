@@ -593,7 +593,44 @@ encode_uri_path() {
     jq -nr --arg p "$1" '($p | split("/") | map(@uri) | join("/"))'
 }
 
+detect_keyboard_layout() {
+    local layout="" variant=""
+    if command -v localectl >/dev/null 2>&1; then
+        layout="$(localectl status 2>/dev/null | sed -n 's/.*X11 Layout:[[:space:]]*//p' | head -n 1 | tr -d '[:space:]')"
+        variant="$(localectl status 2>/dev/null | sed -n 's/.*X11 Variant:[[:space:]]*//p' | head -n 1)"
+    fi
+    if [[ -z "$layout" && -r /etc/vconsole.conf ]]; then
+        layout="$(sed -n 's/^XKBLAYOUT=//p' /etc/vconsole.conf | head -n 1 | tr -d '\"')"
+        variant="$(sed -n 's/^XKBVARIANT=//p' /etc/vconsole.conf | head -n 1 | tr -d '\"')"
+    fi
+    if [[ -z "$layout" ]]; then
+        layout="us"
+    fi
+    if [[ -z "$variant" || "$variant" == "-" || "$variant" == "none" ]]; then
+        variant="intl"
+    fi
+    printf '%s %s' "$layout" "$variant"
+}
+
+configure_keyboard_layout() {
+    local target="$1"
+    [[ -f "$target" ]] || return 0
+    local layout variant
+    read -r layout variant <<<"$(detect_keyboard_layout)"
+    if [[ "$dry_run" == true ]]; then
+        log "[dry-run] keyboard layout: $layout / $variant -> $target"
+        return 0
+    fi
+    sed -i -E "s/^[[:space:]]*layout[[:space:]]*=.*/layout = \"$layout\"/" -- "$target"
+    sed -i -E "s/^[[:space:]]*variant[[:space:]]*=.*/variant = \"$variant\"/" -- "$target"
+    log "keyboard layout configured: $layout / $variant"
+}
+
 write_nautilus_bookmarks() {
+    if command -v xdg-user-dirs-update >/dev/null 2>&1; then
+        xdg-user-dirs-update >/dev/null 2>&1 || true
+    fi
+
     local pictures downloads documents music videos
     pictures="$(xdg-user-dir PICTURES 2>/dev/null || printf '%s/Pictures' "$HOME")"
     downloads="$(xdg-user-dir DOWNLOAD 2>/dev/null || printf '%s/Downloads' "$HOME")"
@@ -603,7 +640,7 @@ write_nautilus_bookmarks() {
 
     local -a dirs=( "$downloads" "$documents" "$pictures" "$music" "$videos" )
     local dest="$HOME/.config/gtk-3.0/bookmarks"
-    local dir uri
+    local dir uri label
 
     backup_path "$dest"
 
@@ -612,7 +649,8 @@ write_nautilus_bookmarks() {
         printf '\r\033[2K  %s(dry-run)%s nautilus bookmarks -> %s\n' "$C_DIM" "$C_RESET" "$dest"
         for dir in "${dirs[@]}"; do
             uri="file://$(encode_uri_path "$dir")"
-            printf '  %s\n' "$uri"
+            label="$(basename "$dir")"
+            printf '  %s %s\n' "$uri" "$label"
         done
         return 0
     fi
@@ -621,7 +659,8 @@ write_nautilus_bookmarks() {
     : >"$dest"
     for dir in "${dirs[@]}"; do
         uri="file://$(encode_uri_path "$dir")"
-        printf '%s\\n' "$uri" >>"$dest"
+        label="$(basename "$dir")"
+        printf '%s %s\n' "$uri" "$label" >>"$dest"
     done
     log "nautilus bookmarks written: $dest"
 }
@@ -824,6 +863,7 @@ install_command() {
 
     step_begin "$msg_step_umbriel"
     copy_umbriel
+    configure_keyboard_layout "$HOME/.config/umbriel/input.toml"
     step_done
 
     step_begin "$msg_step_desktop"
@@ -899,6 +939,7 @@ refresh_command() {
 
     step_begin "$msg_step_refresh_files"
     copy_umbriel
+    configure_keyboard_layout "$HOME/.config/umbriel/input.toml"
     copy_desktop
     configure_noctalia
     step_done

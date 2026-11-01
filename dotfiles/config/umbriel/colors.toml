@@ -1,44 +1,45 @@
-#       ⣀⣀⣀⣀⡀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⣀⣀⠀⠀⢀⣀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⢀⣀⣀⡀⠀⠀⠀⠀⠀⠀⢠⣤⣤⣤⣤⣤⡄⠀⠀
-#       ⠛⢻⣿⠛⠃⠀⠀⣴⡿⠟⣿⣦⠀⠀⠀⣿⣿⡀⠀⣿⣿⠀⠀⠀⣰⣿⠿⢿⣷⠀⠀⠀⣿⣟⠛⠃⠀⠀⠀⠀⠀⠀⢸⡏⠉⣿⠉⢹⡇⠀⠀
-#       ⠀⢸⣿⠀⠀⠀⢰⣿⠁⠀⢸⣿⠀⠀⠀⣿⣿⣇⢰⣿⣿⠀⠀⠀⣿⡇⠀⠈⣿⡇⠀⠀⣿⣿⣶⡆⠀⠀⠀⠀⠀⠀⢸⣷⣶⣿⣶⣾⡇⠀⠀
-#       ⠀⢸⣿⠀⠀⠀⠈⣿⣆⠀⣸⣿⠀⠀⠀⣿⡟⣿⣿⢻⣿⠀⠀⠀⣿⣇⠀⣰⣿⠃⠀⠀⣿⣿⠉⠁⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠈⣡⠀⠀
-#       ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
+#          ⣀⣀⣀⣀⡀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⣀⣀⠀⠀⢀⣀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⢀⣀⣀⡀⠀⠀⠀⠀⠀⠀⢠⣤⣤⣤⣤⣤⡄⠀⠀
+#          ⠛⢻⣿⠛⠃⠀⠀⣴⡿⠟⣿⣦⠀⠀⠀⣿⣿⡀⠀⣿⣿⠀⠀⠀⣰⣿⠿⢿⣷⠀⠀⠀⣿⣟⠛⠃⠀⠀⠀⠀⠀⠀⢸⡏⠉⣿⠉⢹⡇⠀⠀
+#          ⠀⢸⣿⠀⠀⠀⢰⣿⠁⠀⢸⣿⠀⠀⠀⣿⣿⣇⢰⣿⣿⠀⠀⠀⣿⡇⠀⠈⣿⡇⠀⠀⣿⣿⣶⡆⠀⠀⠀⠀⠀⠀⢸⣷⣶⣿⣶⣾⡇⠀⠀
+#          ⠀⢸⣿⠀⠀⠀⠈⣿⣆⠀⣸⣿⠀⠀⠀⣿⡟⣿⣿⢻⣿⠀⠀⠀⣿⣇⠀⣰⣿⠃⠀⠀⣿⣿⠉⠁⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠈⣡⠀⠀
+#          ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
 #
 #  ╔═════════════════════════════════════════════════════════════════════╗
 #  ║  ✦ Cores                                                            ║
 #  ╚═════════════════════════════════════════════════════════════════════╝
 
 #  ╭─ ✦ Paleta ───────────────────────────────────────────────────────────
+# Paleta monocromática preto e branco.
 [colors]
-accent_primary = "#F6E05EFF"
-accent_secondary = "#98C379FF"
-background = "#0F1012FF"
+accent_primary = "#FFFFFFFF"
+accent_secondary = "#BFBFBFFF"
+background = "#000000FF"
 text_primary = "#E6E6E6FF"
-text_muted = "#8A8A92FF"
+text_muted = "#808080FF"
 # Cor exibida se a tela de bloqueio demorar a aparecer.
 # backdrop = "#000000FF"
 
 #  ╭─ ✦ Bordas ───────────────────────────────────────────────────────────
 [colors.border]
-focused = "#F6E05EFF"
-unfocused = "#2A2E35FF"
-outer = "#1A1A1FFF"
+focused = "#FFFFFFFF"
+unfocused = "#3A3A3AFF"
+outer = "#141414FF"
 
 #  ╭─ ✦ Barra de título ──────────────────────────────────────────────────
 [colors.title_bar]
-background = "#1F232AFF"
-background_unfocused = "#15171BFF"
-text = "#E6E6E6FF"
-text_unfocused = "#8A8A92FF"
-close = "#E06C75FF"
-maximize = "#98C379FF"
-minimize = "#E5C07BFF"
+background = "#141414FF"
+background_unfocused = "#0A0A0AFF"
+text = "#FFFFFFFF"
+text_unfocused = "#808080FF"
+close = "#FFFFFFFF"
+maximize = "#BFBFBFFF"
+minimize = "#808080FF"
 
 #  ╭─ ✦ Botões ───────────────────────────────────────────────────────────
 # Paleta opcional dos botões. As cores dos glifos valem mesmo sem fundo.
-# close_glyph = "#141419FF"
-# close_glyph_hover = "#141419FF"
-# maximize_glyph = "#141419FF"
-# maximize_glyph_hover = "#141419FF"
-# minimize_glyph = "#141419FF"
-# minimize_glyph_hover = "#141419FF"
+# close_glyph = "#000000FF"
+# close_glyph_hover = "#000000FF"
+# maximize_glyph = "#000000FF"
+# maximize_glyph_hover = "#000000FF"
+# minimize_glyph = "#000000FF"
+# minimize_glyph_hover = "#000000FF"

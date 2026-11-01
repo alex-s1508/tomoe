@@ -12,6 +12,6 @@
 # Mude um valor para trocar o programa padrão usado pelos atalhos.
 [environment]
 terminal = "kitty"
-browser = "google-chrome"
+browser = "google-chrome-stable"
 file_manager = "nautilus"
 launcher = "noctalia msg panel-toggle launcher"

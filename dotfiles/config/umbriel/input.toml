@@ -9,10 +9,10 @@
 #  ╚═════════════════════════════════════════════════════════════════════╝
 
 #  ╭─ ✦ Teclado ──────────────────────────────────────────────────────────
-# Habilita NumLock no primeiro teclado físico; os demais herdam os locks atuais.
+# Layout e variante são ajustados pelo instalador conforme o CachyOS.
 [input.keyboard]
 layout = "us"
-variant = "altgr-intl"
+variant = "intl"
 numlock_toggle = true
 repeat_delay = 300
 repeat_rate = 50
@@ -31,9 +31,9 @@ accel_profile = "flat"
 # sensitivity = 0.0
 
 #  ╭─ ✦ Foco ─────────────────────────────────────────────────────────────
-# O foco pode seguir o ponteiro entre janelas em mosaico, flutuantes e fixadas.
-# [input.focus]
-# follows_mouse = true
+# O foco segue o ponteiro entre janelas em mosaico, flutuantes e fixadas.
+[input.focus]
+follows_mouse = true
 # hover_raises = false # Hover só foca; cliques e atalhos elevam.
 
 #  ╭─ ✦ Toque ────────────────────────────────────────────────────────────
