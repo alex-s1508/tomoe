@@ -1,0 +1,25 @@
+--- a/FrameMenuManager.qml
++++ b/FrameMenuManager.qml
+@@ -68,6 +68,11 @@
+             if (id === "screenshot") continue;
+             out.push(Object.assign({ id: id, kind: "menu" }, src[id]));
+         }
++        // Notification history is a first-class SUMI rail action. Keep it
++        // available even when it is not one of the configurable frame menus.
++        if (!out.some(row => row.id === "notifications"))
++            out.push({ id: "notifications", kind: "menu", anchor: "left",
++                minWidth: 410, expansion: "always", widgets: ["notifications"] });
+         return out;
+     }
+     readonly property var surfaces: {
+--- a/framebars/widgets/RailStatus.qml
++++ b/framebars/widgets/RailStatus.qml
+@@ -97,7 +97,7 @@
+             if (Audio.source && Audio.source.audio)
+                 Audio.source.audio.muted = !Audio.source.audio.muted;
+         } else if (statusId === "notifications") {
+-            ShellState.requestSurfaceActive("sidebar-left#notices");
++            root.menuRequested("notifications", Qt.rect(btn.x, btn.y, btn.width, btn.height));
+         } else if (statusId === "bluetooth") {
+             root.menuRequested("bluetooth", Qt.rect(btn.x, btn.y, btn.width, btn.height));
+         } else if (statusId === "battery") {

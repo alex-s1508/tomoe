@@ -1,0 +1,52 @@
+#       ⣀⣀⣀⣀⡀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⣀⣀⠀⠀⢀⣀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⢀⣀⣀⡀⠀⠀⠀⠀⠀⠀⢠⣤⣤⣤⣤⣤⡄⠀⠀
+#       ⠛⢻⣿⠛⠃⠀⠀⣴⡿⠟⣿⣦⠀⠀⠀⣿⣿⡀⠀⣿⣿⠀⠀⠀⣰⣿⠿⢿⣷⠀⠀⠀⣿⣟⠛⠃⠀⠀⠀⠀⠀⠀⢸⡏⠉⣿⠉⢹⡇⠀⠀
+#       ⠀⢸⣿⠀⠀⠀⢰⣿⠁⠀⢸⣿⠀⠀⠀⣿⣿⣇⢰⣿⣿⠀⠀⠀⣿⡇⠀⠈⣿⡇⠀⠀⣿⣿⣶⡆⠀⠀⠀⠀⠀⠀⢸⣷⣶⣿⣶⣾⡇⠀⠀
+#       ⠀⢸⣿⠀⠀⠀⠈⣿⣆⠀⣸⣿⠀⠀⠀⣿⡟⣿⣿⢻⣿⠀⠀⠀⣿⣇⠀⣰⣿⠃⠀⠀⣿⣿⠉⠁⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠈⣡⠀⠀
+#       ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
+#
+#  ╔═════════════════════════════════════════════════════════════════════╗
+#  ║  ✦ Aparência                                                        ║
+#  ╚═════════════════════════════════════════════════════════════════════╝
+
+#  ╭─ ✦ Geral ────────────────────────────────────────────────────────────
+[appearance]
+corner_radius = 10
+border_width = 2
+
+#  ╭─ ✦ Blur ─────────────────────────────────────────────────────────────
+[appearance.blur]
+radius = 3
+
+#  ╭─ ✦ Sombra ───────────────────────────────────────────────────────────
+[appearance.shadow]
+enabled = true
+
+#  ╭─ ✦ Barra de título ──────────────────────────────────────────────────
+# Barra de título opcional, com arraste e redimensionamento sem modificador.
+# mode: "on" segue a preferência do cliente, "negotiated" oculta em janelas
+# Wayland sem negociação, "forced" sempre mostra e "off" oculta.
+[appearance.title_bar]
+mode = "off"
+height = 28
+font = "sans 10"
+button_position = "right"
+buttons = ["minimize", "maximize", "close"]
+# -1 segue corner_radius da janela; 0 deixa os botões quadrados.
+# button_corner_radius = -1
+# "always", "hover" (ao passar ou pressionar) ou "never".
+button_glyph = "hover"
+button_background = true
+
+#  ╭─ ✦ Barra de abas ────────────────────────────────────────────────────
+[appearance.tab_bar]
+position = "top"
+height = 24
+hide_when_single = false
+max_tabs = 6
+overflow = "scroll"
+title_align = "center"
+# style = "titles" # "indicator" desenha slots finos sem títulos.
+# gap = -1 # Espaço entre barra e janela; -1 segue layout.gap.
+# font = "sans 10"
+# visible = true # false oculta as barras; as abas continuam funcionando.
+# overflow = "scroll" # "shrink" ajusta todas as abas.

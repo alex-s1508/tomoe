@@ -1,0 +1,36 @@
+#       ⣀⣀⣀⣀⡀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⣀⣀⠀⠀⢀⣀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⢀⣀⣀⡀⠀⠀⠀⠀⠀⠀⢠⣤⣤⣤⣤⣤⡄⠀⠀
+#       ⠛⢻⣿⠛⠃⠀⠀⣴⡿⠟⣿⣦⠀⠀⠀⣿⣿⡀⠀⣿⣿⠀⠀⠀⣰⣿⠿⢿⣷⠀⠀⠀⣿⣟⠛⠃⠀⠀⠀⠀⠀⠀⢸⡏⠉⣿⠉⢹⡇⠀⠀
+#       ⠀⢸⣿⠀⠀⠀⢰⣿⠁⠀⢸⣿⠀⠀⠀⣿⣿⣇⢰⣿⣿⠀⠀⠀⣿⡇⠀⠈⣿⡇⠀⠀⣿⣿⣶⡆⠀⠀⠀⠀⠀⠀⢸⣷⣶⣿⣶⣾⡇⠀⠀
+#       ⠀⢸⣿⠀⠀⠀⠈⣿⣆⠀⣸⣿⠀⠀⠀⣿⡟⣿⣿⢻⣿⠀⠀⠀⣿⣇⠀⣰⣿⠃⠀⠀⣿⣿⠉⠁⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠈⣡⠀⠀
+#       ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
+#
+#  ╔═════════════════════════════════════════════════════════════════════╗
+#  ║  ✦ Configuração principal                                           ║
+#  ╚═════════════════════════════════════════════════════════════════════╝
+
+#  ╭─ ✦ Módulos ──────────────────────────────────────────────────────────
+[include]
+files = [
+  "general.toml",
+  "events.toml",
+  "screencast.toml",
+  "outputs.toml",
+  "appearance.toml",
+  "animations.toml",
+  "colors.toml",
+  "effects.toml",
+  "input.toml",
+  "keybinds.toml",
+  "apps.toml",
+  "layout.toml",
+  "workspaces.toml",
+  "scratchpads.toml",
+  "rules.toml",
+  "overview.toml",
+  "noctalia.toml",
+]
+
+#  ╭─ ✦ Opcionais ────────────────────────────────────────────────────────
+# Includes opcionais, carregados apenas se existirem.
+[include.optional]
+files = []

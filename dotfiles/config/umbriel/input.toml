@@ -1,0 +1,43 @@
+#       ⣀⣀⣀⣀⡀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⣀⣀⠀⠀⢀⣀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⢀⣀⣀⡀⠀⠀⠀⠀⠀⠀⢠⣤⣤⣤⣤⣤⡄⠀⠀
+#       ⠛⢻⣿⠛⠃⠀⠀⣴⡿⠟⣿⣦⠀⠀⠀⣿⣿⡀⠀⣿⣿⠀⠀⠀⣰⣿⠿⢿⣷⠀⠀⠀⣿⣟⠛⠃⠀⠀⠀⠀⠀⠀⢸⡏⠉⣿⠉⢹⡇⠀⠀
+#       ⠀⢸⣿⠀⠀⠀⢰⣿⠁⠀⢸⣿⠀⠀⠀⣿⣿⣇⢰⣿⣿⠀⠀⠀⣿⡇⠀⠈⣿⡇⠀⠀⣿⣿⣶⡆⠀⠀⠀⠀⠀⠀⢸⣷⣶⣿⣶⣾⡇⠀⠀
+#       ⠀⢸⣿⠀⠀⠀⠈⣿⣆⠀⣸⣿⠀⠀⠀⣿⡟⣿⣿⢻⣿⠀⠀⠀⣿⣇⠀⣰⣿⠃⠀⠀⣿⣿⠉⠁⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠈⣡⠀⠀
+#       ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
+#
+#  ╔═════════════════════════════════════════════════════════════════════╗
+#  ║  ✦ Entrada                                                          ║
+#  ╚═════════════════════════════════════════════════════════════════════╝
+
+#  ╭─ ✦ Teclado ──────────────────────────────────────────────────────────
+# Habilita NumLock no primeiro teclado físico; os demais herdam os locks atuais.
+[input.keyboard]
+layout = "us"
+variant = "altgr-intl"
+numlock_toggle = true
+repeat_delay = 300
+repeat_rate = 50
+
+#  ╭─ ✦ Touchpad ─────────────────────────────────────────────────────────
+[input.touchpad]
+tap = true
+natural_scroll = true
+disable_while_typing = true
+# accel_profile = "flat" # Descomente para remover a aceleração do touchpad.
+
+#  ╭─ ✦ Mouse ────────────────────────────────────────────────────────────
+# Remove a aceleração: o ponteiro acompanha 1:1 o movimento físico.
+[input.mouse]
+accel_profile = "flat"
+# sensitivity = 0.0
+
+#  ╭─ ✦ Foco ─────────────────────────────────────────────────────────────
+# O foco pode seguir o ponteiro entre janelas em mosaico, flutuantes e fixadas.
+# [input.focus]
+follows_mouse = true
+# hover_raises = false # Hover só foca; cliques e atalhos elevam.
+
+#  ╭─ ✦ Toque ────────────────────────────────────────────────────────────
+# Restringe o toque a uma tela.
+# [input.touch]
+# enabled = true
+# map_to_output = "eDP-1"

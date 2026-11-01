@@ -1,0 +1,17 @@
+--- a/framebars/widgets/RailClock.qml
++++ b/framebars/widgets/RailClock.qml
+@@ -9 +9 @@
+-// The clock is intentionally inert: no click, no hover affordance, plain cursor.
++// Clicking the clock opens its calendar menu.
+@@ -15,0 +16 @@
++    signal menuRequested(string id, rect ownerRect)
+@@ -45 +46,2 @@
+-        interactive: false
++        interactive: true
++        onClicked: root.menuRequested("clock", Qt.rect(btn.x, btn.y, btn.width, btn.height))
+--- a/FrameMenuManager.qml
++++ b/FrameMenuManager.qml
+@@ -75,0 +76,3 @@
++        if (!out.some(row => row.id === "clock"))
++            out.push({ id: "clock", kind: "menu", anchor: "right",
++                minWidth: 320, expansion: "never", widgets: ["clock"] });

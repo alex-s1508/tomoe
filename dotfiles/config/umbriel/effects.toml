@@ -1,0 +1,46 @@
+#       ⣀⣀⣀⣀⡀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⣀⣀⠀⠀⢀⣀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⢀⣀⣀⡀⠀⠀⠀⠀⠀⠀⢠⣤⣤⣤⣤⣤⡄⠀⠀
+#       ⠛⢻⣿⠛⠃⠀⠀⣴⡿⠟⣿⣦⠀⠀⠀⣿⣿⡀⠀⣿⣿⠀⠀⠀⣰⣿⠿⢿⣷⠀⠀⠀⣿⣟⠛⠃⠀⠀⠀⠀⠀⠀⢸⡏⠉⣿⠉⢹⡇⠀⠀
+#       ⠀⢸⣿⠀⠀⠀⢰⣿⠁⠀⢸⣿⠀⠀⠀⣿⣿⣇⢰⣿⣿⠀⠀⠀⣿⡇⠀⠈⣿⡇⠀⠀⣿⣿⣶⡆⠀⠀⠀⠀⠀⠀⢸⣷⣶⣿⣶⣾⡇⠀⠀
+#       ⠀⢸⣿⠀⠀⠀⠈⣿⣆⠀⣸⣿⠀⠀⠀⣿⡟⣿⣿⢻⣿⠀⠀⠀⣿⣇⠀⣰⣿⠃⠀⠀⣿⣿⠉⠁⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠈⣡⠀⠀
+#       ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
+#
+#  ╔═════════════════════════════════════════════════════════════════════╗
+#  ║  ✦ Efeitos                                                          ║
+#  ╚═════════════════════════════════════════════════════════════════════╝
+
+#  ╭─ ✦ Presets ──────────────────────────────────────────────────────────
+# Nenhum efeito fica ativo até um preset ser selecionado. Inclua o preset e
+# escolha-o pelo nome em [effects].
+#
+# Inclua /usr/share/umbriel/effects/border/pulse/effect.toml para a borda pulsante.
+# [include]
+# files = ["/usr/share/umbriel/effects/border/pulse/effect.toml"]
+#
+# Rastro no cursor: inclua /usr/share/umbriel/effects/cursor/trail/effect.toml
+# e defina cursor = "trail" em [effects].
+#
+# Borda reativa ao áudio: inclua /usr/share/umbriel/effects/border/audio/effect.toml
+# e defina border = "audio" em [effects]. Ative o provedor de áudio do Noctalia
+# nas configurações do shell ou forneça um produtor effect-audio v2 externo com
+# 64 bandas. O Umbriel não captura áudio.
+
+#  ╭─ ✦ Pools ────────────────────────────────────────────────────────────
+# Pools aceitam presets definidos ou incluídos separadamente. Este exemplo de um
+# membro usa o preset pulse; adicione outros nomes para escolher.
+#
+# [effects.pool.borders]
+# kind = "border"
+# choose = ["pulse"]
+# selection = "unused_first" # ou round_robin, random
+# Selecione com border = "borders" na tabela [effects].
+
+#  ╭─ ✦ Atalhos ──────────────────────────────────────────────────────────
+# Adicione à tabela [keybinds]:
+# "Mod+Shift+E" = "effect-border-cycle borders"
+# "Mod+Ctrl+E" = "effect-border-toggle"
+# "Mod+Alt+E" = "effect-border-reset"
+
+#  ╭─ ✦ Seleção ──────────────────────────────────────────────────────────
+# [effects]
+# border = "pulse"
+# cursor = "trail"

@@ -1,0 +1,26 @@
+#       ⣀⣀⣀⣀⡀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⣀⣀⠀⠀⢀⣀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⢀⣀⣀⡀⠀⠀⠀⠀⠀⠀⢠⣤⣤⣤⣤⣤⡄⠀⠀
+#       ⠛⢻⣿⠛⠃⠀⠀⣴⡿⠟⣿⣦⠀⠀⠀⣿⣿⡀⠀⣿⣿⠀⠀⠀⣰⣿⠿⢿⣷⠀⠀⠀⣿⣟⠛⠃⠀⠀⠀⠀⠀⠀⢸⡏⠉⣿⠉⢹⡇⠀⠀
+#       ⠀⢸⣿⠀⠀⠀⢰⣿⠁⠀⢸⣿⠀⠀⠀⣿⣿⣇⢰⣿⣿⠀⠀⠀⣿⡇⠀⠈⣿⡇⠀⠀⣿⣿⣶⡆⠀⠀⠀⠀⠀⠀⢸⣷⣶⣿⣶⣾⡇⠀⠀
+#       ⠀⢸⣿⠀⠀⠀⠈⣿⣆⠀⣸⣿⠀⠀⠀⣿⡟⣿⣿⢻⣿⠀⠀⠀⣿⣇⠀⣰⣿⠃⠀⠀⣿⣿⠉⠁⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠈⣡⠀⠀
+#       ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
+#
+#  ╔═════════════════════════════════════════════════════════════════════╗
+#  ║  ✦ Scratchpads                                                      ║
+#  ╚═════════════════════════════════════════════════════════════════════╝
+
+#  ╭─ ✦ Definição ────────────────────────────────────────────────────────
+# Um scratchpad nomeado pode abrir um aplicativo quando alternado vazio.
+# [[scratchpad]]
+# name = "music"
+# spawn_when_empty = "spotify"
+
+#  ╭─ ✦ Regras ───────────────────────────────────────────────────────────
+# [[window_rule]]
+# match.app_id = "^spotify$"
+# default_scratchpad = "music"
+
+# Cada scratchpad pode ter cores de borda próprias.
+# [[window_rule]]
+# match.is_scratchpad = true
+# border_color_focused = "#E5C07BFF"
+# border_color_unfocused = "#5C4A2AFF"

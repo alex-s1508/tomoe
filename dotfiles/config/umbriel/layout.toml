@@ -1,0 +1,51 @@
+#       ⣀⣀⣀⣀⡀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⣀⣀⠀⠀⢀⣀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⢀⣀⣀⡀⠀⠀⠀⠀⠀⠀⢠⣤⣤⣤⣤⣤⡄⠀⠀
+#       ⠛⢻⣿⠛⠃⠀⠀⣴⡿⠟⣿⣦⠀⠀⠀⣿⣿⡀⠀⣿⣿⠀⠀⠀⣰⣿⠿⢿⣷⠀⠀⠀⣿⣟⠛⠃⠀⠀⠀⠀⠀⠀⢸⡏⠉⣿⠉⢹⡇⠀⠀
+#       ⠀⢸⣿⠀⠀⠀⢰⣿⠁⠀⢸⣿⠀⠀⠀⣿⣿⣇⢰⣿⣿⠀⠀⠀⣿⡇⠀⠈⣿⡇⠀⠀⣿⣿⣶⡆⠀⠀⠀⠀⠀⠀⢸⣷⣶⣿⣶⣾⡇⠀⠀
+#       ⠀⢸⣿⠀⠀⠀⠈⣿⣆⠀⣸⣿⠀⠀⠀⣿⡟⣿⣿⢻⣿⠀⠀⠀⣿⣇⠀⣰⣿⠃⠀⠀⣿⣿⠉⠁⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠈⣡⠀⠀
+#       ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
+#
+#  ╔═════════════════════════════════════════════════════════════════════╗
+#  ║  ✦ Layout                                                           ║
+#  ╚═════════════════════════════════════════════════════════════════════╝
+
+#  ╭─ ✦ Geral ────────────────────────────────────────────────────────────
+# Janelas novas do layout scrolling começam com metade da largura da saída.
+# Colunas empilhadas mantêm a linha focada ao sair e voltar.
+[layout]
+mode = "scrolling"
+gap = 8
+extent_presets = [0.333, 0.5, 0.667]
+# Mod+F e o duplo clique no topo da janela preenchem a área útil sem struts,
+# gaps ou bordas. "column" limitaria o preenchimento à coluna.
+client_maximize = "edges"
+
+#  ╭─ ✦ Empilhamento ─────────────────────────────────────────────────────
+[layout.stacking]
+# drop_zones = false # Desativa zonas de soltura nas bordas ao arrastar.
+
+#  ╭─ ✦ Rolagem ──────────────────────────────────────────────────────────
+[layout.scrolling]
+default_extent_fraction = 0.5
+# Centraliza a janela escolhida no overview, como column-center.
+center_on_overview_select = true
+
+#  ╭─ ✦ Abas ─────────────────────────────────────────────────────────────
+# Um grupo de abas mostra uma janela por vez abaixo de uma barra de títulos.
+# Mod+W agrupa a janela focada com as empilhadas ao lado; Mod+Shift+J/K movem
+# uma aba para fora ou uma janela para dentro. Clique, scroll ou arraste um
+# título para trocar, reordenar ou retirar.
+[layout.tabs]
+default_display = "normal"
+new_tab_position = "after_active"
+middle_click_closes = true
+
+#  ╭─ ✦ Layouts alternativos ─────────────────────────────────────────────
+# [layout]
+# mode = "dwindle"
+#
+# [layout.master]
+# position = "left"
+# default_width_fraction = 0.55
+#
+# [layout.stacking]
+# drop_zones = true

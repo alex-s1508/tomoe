@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Qt V4L2 test Utility
+Name[pt]=Utilitário de teste V4L2
+Exec=qv4l2
+Terminal=false
+NoDisplay=true

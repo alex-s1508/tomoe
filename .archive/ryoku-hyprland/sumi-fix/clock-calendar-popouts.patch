@@ -1,0 +1,329 @@
+--- a/framebars/menus/MenuClock.qml
++++ b/framebars/menus/MenuClock.qml
+@@ -12,26 +12,27 @@
+ 
+     property real s: 1
+     property bool open: false
++    property bool calendarFramed: true
++    property bool compact: false
+ 
+     implicitHeight: column.implicitHeight
+ 
+     Column {
+         id: column
+         width: root.width
+-        spacing: 10 * root.s
++        spacing: 8 * root.s
+ 
+         QsCalendarEmbed {
+             width: parent.width
+-            s: root.s
++            s: root.compact ? root.s * 0.9 : root.s
+             open: root.open
+         }
+ 
+-        Item { width: parent.width; height: 10 * root.s }
+-
+         MenuWeather {
+             width: parent.width
+             s: root.s
+             open: root.open
++            compact: root.compact
+         }
+     }
+ }
+--- a/framebars/menus/MenuWeather.qml
++++ b/framebars/menus/MenuWeather.qml
+@@ -20,6 +20,7 @@
+ 
+     required property real s
+     required property bool open
++    property bool compact: false
+ 
+     readonly property string status: Weather.status
+     readonly property bool loaded: root.status === "loaded" && Weather.current !== null
+@@ -135,7 +136,7 @@
+     Column {
+         id: loadedBox
+         width: root.width
+-        spacing: 12 * root.s
++        spacing: (root.compact ? 8 : 12) * root.s
+         opacity: root.loaded ? 1 : 0
+         visible: opacity > 0
+         Behavior on opacity { NumberAnimation { duration: Motion.weatherFade; easing.type: Motion.crossfadeCurve } }
+@@ -268,12 +269,12 @@
+             Row {
+                 width: parent.width
+                 Repeater {
+-                    model: Math.min(6, Weather.hourly.length)
++                    model: Math.min(root.compact ? 4 : 6, Weather.hourly.length)
+                     delegate: Column {
+                         id: hourCell
+                         required property int index
+                         readonly property var h: Weather.hourly[hourCell.index]
+-                        width: parent.width / 6
++                        width: parent.width / (root.compact ? 4 : 6)
+                         spacing: 6 * root.s
+                         Text {
+                             anchors.horizontalCenter: parent.horizontalCenter
+@@ -400,6 +401,7 @@
+         // 4. Sun row ----------------------------------------------------------
+         WeatherCard {
+             s: root.s
++            visible: !root.compact
+             width: parent.width
+             eyebrow: I18n.tr("Sun")
+ 
+@@ -448,6 +450,7 @@
+         // 5. Moon -------------------------------------------------------------
+         WeatherCard {
+             s: root.s
++            visible: !root.compact
+             width: parent.width
+             eyebrow: I18n.tr("Moon")
+ 
+@@ -519,6 +522,7 @@
+         // 6. Metrics grid -----------------------------------------------------
+         WeatherCard {
+             s: root.s
++            visible: !root.compact
+             width: parent.width
+             eyebrow: I18n.tr("Conditions")
+ 
+@@ -573,6 +577,7 @@
+         // 7. Air quality ------------------------------------------------------
+         WeatherCard {
+             s: root.s
++            visible: !root.compact
+             width: parent.width
+             eyebrow: I18n.tr("Air Quality")
+ 
+@@ -697,7 +702,7 @@
+         // 8. Footer -----------------------------------------------------------
+         Text {
+             width: parent.width
+-            visible: Weather.updatedAt.length > 0
++            visible: !root.compact && Weather.updatedAt.length > 0
+             horizontalAlignment: Text.AlignHCenter
+             text: I18n.tr("Updated %1").arg(Weather.updatedAt)
+             color: root.inkVar
+--- a/framebars/menus/QsCalendarEmbed.qml
++++ b/framebars/menus/QsCalendarEmbed.qml
+@@ -11,6 +11,7 @@
+ Item {
+     id: root
+ 
++    property bool framed: true
+     property real s: 1
+     property bool open: false
+ 
+@@ -64,12 +65,12 @@
+     Rectangle {
+         id: calCard
+         width: root.width
+-        radius: Theme.radiusWidget
+-        color: Theme.surface
+-        border.width: Theme.borderWidth
++        radius: root.framed ? Theme.radiusWidget : 0
++        color: root.framed ? Theme.surface : "transparent"
++        border.width: root.framed ? Theme.borderWidth : 0
+         border.color: Theme.outline
+         implicitHeight: cal.implicitHeight + 2 * (10 * root.s)
+-        SumiEdge {}
++        SumiEdge { visible: root.framed }
+ 
+         Column {
+             id: cal
+--- a/FrameMenuManager.qml
++++ b/FrameMenuManager.qml
+@@ -65,22 +65,16 @@
+             // card (a surface). Ignore any lingering screenshot_menu in a config
+             // the doctor has not yet reconciled, so the surface -- not the retired
+             // menu -- answers `menu screenshot`.
+-            if (id === "screenshot") continue;
++            if (id === "screenshot" || id === "clock" || id === "notifications") continue;
+             out.push(Object.assign({ id: id, kind: "menu" }, src[id]));
+         }
+-        // Notification history is a first-class SUMI rail action. Keep it
+-        // available even when it is not one of the configurable frame menus.
+-        if (!out.some(row => row.id === "notifications"))
+-            out.push({ id: "notifications", kind: "menu", anchor: "left",
+-                minWidth: 410, expansion: "always", widgets: ["notifications"] });
+-        if (!out.some(row => row.id === "clock"))
+-            out.push({ id: "clock", kind: "menu", anchor: "right",
+-                minWidth: 320, expansion: "never", widgets: ["clock"] });
+         return out;
+     }
+     readonly property var surfaces: {
+         const out = [];
+         out.push(
++            { id: "clock", kind: "calendar", anchor: "right", minWidth: 300 },
++            { id: "notifications", kind: "notifications", anchor: "left", minWidth: 410 },
+             { id: "voice", kind: "voice", anchor: "bottom", minWidth: 380 },
+             { id: "keyring", kind: "keyring", anchor: "top", minWidth: 420 },
+             // polkit asks for an administrator password: same island as the
+@@ -132,7 +126,7 @@
+         const mon = menuState[monitorName];
+         if (!mon) return false;
+         for (const anchor in mon)
+-            if (mon[anchor] && mon[anchor].kind && mon[anchor].kind !== "menu" && mon[anchor].id !== "voice" && mon[anchor].id !== "music" && mon[anchor].id !== "bluetooth" && mon[anchor].id !== "battery" && mon[anchor].id !== "network" && mon[anchor].id !== "sysmon" && mon[anchor].id !== "audio" && mon[anchor].id !== "screenshot") return true;
++            if (mon[anchor] && mon[anchor].kind && mon[anchor].kind !== "menu" && mon[anchor].id !== "voice" && mon[anchor].id !== "music" && mon[anchor].id !== "bluetooth" && mon[anchor].id !== "battery" && mon[anchor].id !== "network" && mon[anchor].id !== "sysmon" && mon[anchor].id !== "audio" && mon[anchor].id !== "screenshot" && mon[anchor].id !== "clock" && mon[anchor].id !== "notifications") return true;
+         return false;
+     }
+     // Keyboard focus the frame raises while something is open (contract 05 sec
+@@ -145,7 +139,7 @@
+             const rec = mon[anchor];
+             if (!rec) continue;
+             if (rec.id === "network") return "ondemand";
+-            if (rec.kind && rec.kind !== "menu" && rec.id !== "voice" && rec.id !== "music" && rec.id !== "bluetooth" && rec.id !== "battery" && rec.id !== "network" && rec.id !== "sysmon" && rec.id !== "audio" && rec.id !== "screenshot") return "exclusive";
++            if (rec.kind && rec.kind !== "menu" && rec.id !== "voice" && rec.id !== "music" && rec.id !== "bluetooth" && rec.id !== "battery" && rec.id !== "network" && rec.id !== "sysmon" && rec.id !== "audio" && rec.id !== "screenshot" && rec.id !== "clock" && rec.id !== "notifications") return "exclusive";
+         }
+         return "none";
+     }
+--- a/FrameSurface.qml
++++ b/FrameSurface.qml
+@@ -1,6 +1,7 @@
+ pragma ComponentBehavior: Bound
+ 
+ import QtQuick
++import "framebars/menus"
+ import "popouts"
+ import shell.services
+ 
+@@ -51,7 +52,8 @@
+         : (body.item ? body.item.implicitHeight : 0)
+ 
+     // Card popouts float off the frame lip.
+-    edgeGap: (root.kind === "music" || root.kind === "bluetooth" || root.kind === "battery" || root.kind === "network" || root.kind === "voice" || root.kind === "sysmon" || root.kind === "audio" || root.kind === "screenshot") ? 10 * root.s : 0
++    edgeGap: (root.kind === "music" || root.kind === "bluetooth" || root.kind === "battery" || root.kind === "network" || root.kind === "voice" || root.kind === "sysmon" || root.kind === "audio" || root.kind === "screenshot" || root.kind === "calendar" || root.kind === "notifications") ? 10 * root.s : 0
++    growOriginAlong: (root.kind === "calendar" || root.kind === "notifications") ? root.triggerAlong : -1
+ 
+     readonly property bool sideMenu: root.edge === "left" || root.edge === "right"
+ 
+@@ -91,6 +93,8 @@
+             : root.kind === "network" ? networkBody
+             : root.kind === "sysmon" ? sysmonBody
+             : root.kind === "audio" ? audioBody
++            : root.kind === "calendar" ? calendarBody
++            : root.kind === "notifications" ? notificationsBody
+             : root.kind === "screenshot" ? captureBody
+             : null
+     }
+@@ -165,6 +169,45 @@
+         }
+     }
+     Component {
++        id: calendarBody
++        Item {
++            readonly property real pad: 12 * root.s
++            implicitWidth: 300 * root.s
++            implicitHeight: clockMenu.implicitHeight + 2 * pad
++
++            PopoutCard { anchors.fill: parent }
++            MenuClock {
++                id: clockMenu
++                x: parent.pad
++                y: parent.pad
++                width: parent.width - 2 * parent.pad
++                s: root.s
++                open: root.effectiveOpen
++                calendarFramed: false
++                compact: true
++            }
++        }
++    }
++    Component {
++        id: notificationsBody
++        Item {
++            readonly property real pad: 14 * root.s
++            implicitWidth: 410 * root.s
++            implicitHeight: notifications.implicitHeight + 2 * pad
++
++            PopoutCard { anchors.fill: parent }
++            MenuNotifications {
++                id: notifications
++                x: parent.pad
++                y: parent.pad
++                width: parent.width - 2 * parent.pad
++                height: parent.height - 2 * parent.pad
++                s: root.s
++                open: root.effectiveOpen
++            }
++        }
++    }
++    Component {
+         id: captureBody
+         CapturePopout {
+             s: root.s
+--- a/popouts/Popout.qml
++++ b/popouts/Popout.qml
+@@ -43,6 +43,7 @@
+     // Perpendicular gap from the growing edge to the body, so a surface can
+     // float slightly off the frame lip instead of abutting it. 0 = flush.
+     property real edgeGap: 0
++    property real growOriginAlong: -1
+     // full-height sidebar: the body fills the frame top-to-bottom and fuses into
+     // the top AND bottom borders (not only the edge it grows from), so it reads
+     // as the whole side of the frame swelling open, no gap at either end. only
+@@ -69,10 +70,19 @@
+     // the trigger (hover) or the popout is pinned (a click); held otherwise so
+     // the close animation retracts at the icon, not a re-derived centre.
+     property real heldAlong: -1
++    property real heldGrowOrigin: -1
+     onAlongCenterChanged: if ((triggerHovered || pinned) && alongCenter >= 0) heldAlong = alongCenter
+-    onTriggerHoveredChanged: if (triggerHovered && alongCenter >= 0) heldAlong = alongCenter
++    onGrowOriginAlongChanged: if ((triggerHovered || pinned) && growOriginAlong >= 0) heldGrowOrigin = growOriginAlong
++    onTriggerHoveredChanged: {
++        if (triggerHovered && alongCenter >= 0) heldAlong = alongCenter;
++        if (triggerHovered && growOriginAlong >= 0) heldGrowOrigin = growOriginAlong;
++    }
+     onPinnedChanged: {
+-        if (pinned) { if (alongCenter >= 0) heldAlong = alongCenter; return; }
++        if (pinned) {
++            if (alongCenter >= 0) heldAlong = alongCenter;
++            if (growOriginAlong >= 0) heldGrowOrigin = growOriginAlong;
++            return;
++        }
+         // a deliberate unpin (keybind re-toggle, tap, close button, Escape) shuts
+         // at once: the closeDelay grace only debounces a hover-leave across the
+         // blob rim, so a pin release skips it -- even under the pointer, an
+@@ -87,6 +97,10 @@
+         const live = (triggerHovered || pinned) ? alongCenter : heldAlong;
+         return live >= 0 ? live : heldAlong;
+     }
++    readonly property real effectiveGrowOrigin: {
++        const live = (triggerHovered || pinned) ? growOriginAlong : heldGrowOrigin;
++        return live >= 0 ? live : heldGrowOrigin;
++    }
+ 
+     // hold the size for the whole close the same way heldAlong holds the
+     // centre: content tears down at prog 0.5 and its implicit size collapses,
+@@ -168,19 +182,24 @@
+     // body geometry in window coords; grows inward from the border.
+     readonly property real curW: Math.max(0, bodyOpenW * prog)
+     readonly property real curH: Math.max(0, bodyOpenH * prog)
++    readonly property real restingAlongX: hugRight ? width - bodyOpenW : hugLeft ? 0 : alongX
++    readonly property real originOffsetX: effectiveGrowOrigin >= 0 && !vertical
++        ? (effectiveGrowOrigin - (restingAlongX + bodyOpenW / 2)) * (1 - prog) : 0
++    readonly property real originOffsetY: effectiveGrowOrigin >= 0 && vertical
++        ? (effectiveGrowOrigin - (alongY + bodyOpenH / 2)) * (1 - prog) : 0
+     // the gap holds the open body off the frame lip but drains with prog, so the
+     // close melt retracts fully into the frame edge instead of stranding a gap.
+-    readonly property real bodyX: centered ? (width - curW) / 2
++    readonly property real bodyX: (centered ? (width - curW) / 2
+                                  : atLeft ? frameThickness + edgeGap * prog
+                                  : atRight ? (width - frameThickness - curW - edgeGap * prog)
+                                  : hugRight ? (width - curW)
+                                  : hugLeft ? 0
+-                                 : alongX + (bodyOpenW - curW) / 2
+-    readonly property real bodyY: centered ? (height - curH) / 2
++                                 : alongX + (bodyOpenW - curW) / 2) + originOffsetX
++    readonly property real bodyY: (centered ? (height - curH) / 2
+                                  : spanning ? 0
+                                  : atTop ? frameThickness + edgeGap * prog
+                                  : atBottom ? (height - frameThickness - curH - edgeGap * prog)
+-                                 : alongY + (bodyOpenH - curH) / 2
++                                 : alongY + (bodyOpenH - curH) / 2) + originOffsetY
+     readonly property real bodyW: curW
+     readonly property real bodyH: spanning ? height : curH
+ 
