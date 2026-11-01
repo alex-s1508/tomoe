@@ -33,7 +33,7 @@ accel_profile = "flat"
 #  ╭─ ✦ Foco ─────────────────────────────────────────────────────────────
 # O foco pode seguir o ponteiro entre janelas em mosaico, flutuantes e fixadas.
 # [input.focus]
-follows_mouse = true
+# follows_mouse = true
 # hover_raises = false # Hover só foca; cliques e atalhos elevam.
 
 #  ╭─ ✦ Toque ────────────────────────────────────────────────────────────
