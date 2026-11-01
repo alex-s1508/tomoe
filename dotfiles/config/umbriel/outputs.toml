@@ -19,5 +19,5 @@ scale = 1.0
 # Monitor eDP-1 (Notebook à direita, com centros alinhados por uma linha horizontal)
 [output.eDP-1]
 mode = "1920x1080@120"
-position = [1920, 108]
+position = [-1536, 86]
 scale = 1.25

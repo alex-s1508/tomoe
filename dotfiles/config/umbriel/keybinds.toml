@@ -14,12 +14,12 @@
 [keybinds]
 
 #  ╭─ ✦ Aplicativos ──────────────────────────────────────────────────────
-# Comandos padrão definidos em apps.toml.
-"Mod+Return" = { action = "spawn $terminal", repeat = false }
-"Mod+B" = { action = "spawn $browser", repeat = false }
-"Mod+E" = { action = "spawn $file_manager", repeat = false }
-"Mod+Space" = { action = "spawn $launcher", repeat = false }
-"Mod" = "spawn $launcher"
+# Comandos padrão. Mantenha em sincronia com apps.toml.
+"Mod+Return" = { action = "spawn kitty", repeat = false }
+"Mod+B" = { action = "spawn gtk-launch \"$(xdg-settings get default-web-browser)\"", repeat = false }
+"Mod+E" = { action = "spawn gio open \"$HOME\"", repeat = false }
+"Mod+Space" = { action = "spawn noctalia msg panel-toggle launcher", repeat = false }
+"Mod" = "spawn noctalia msg panel-toggle launcher"
 
 #  ╭─ ✦ Sessão ───────────────────────────────────────────────────────────
 "Mod+Q" = { action = "window-close", repeat = false }

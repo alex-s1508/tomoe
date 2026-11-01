@@ -9,9 +9,10 @@
 #  ╚═════════════════════════════════════════════════════════════════════╝
 
 #  ╭─ ✦ Variáveis ────────────────────────────────────────────────────────
-# Mude um valor para trocar o programa padrão usado pelos atalhos.
+# Valores de referência. O Umbriel não interpola $variável em spawn: ao mudar
+# um aplicativo padrão, atualize o atalho correspondente em keybinds.toml.
 [environment]
 terminal = "kitty"
-browser = "google-chrome-stable"
+browser = "google-chrome"
 file_manager = "nautilus"
 launcher = "noctalia msg panel-toggle launcher"

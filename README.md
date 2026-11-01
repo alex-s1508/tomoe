@@ -4,7 +4,6 @@
 <h3 align="center">T O M O E &ensp;巴</h3>
 
 <p align="center"><em>Umbriel + Noctalia</em></p>
-<p align="center">Chie Satonaka theme · Persona 4</p>
 
 # Como instalar
 
