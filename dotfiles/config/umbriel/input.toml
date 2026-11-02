@@ -5,11 +5,11 @@
 #       ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
 #
 #  ╔═════════════════════════════════════════════════════════════════════╗
-#  ║  ✦ Entrada                                                          ║
+#  ║  ✦ Input                                                          ║
 #  ╚═════════════════════════════════════════════════════════════════════╝
 
-#  ╭─ ✦ Teclado ──────────────────────────────────────────────────────────
-# Layout e variante são ajustados pelo instalador conforme o CachyOS.
+#  ╭─ ✦ Keyboard ──────────────────────────────────────────────────────────
+# Layout and variant are adjusted by the installer for CachyOS.
 [input.keyboard]
 layout = "us"
 variant = "intl"
@@ -22,22 +22,22 @@ repeat_rate = 50
 tap = true
 natural_scroll = true
 disable_while_typing = true
-# accel_profile = "flat" # Descomente para remover a aceleração do touchpad.
+# accel_profile = "flat" # Uncomment to remove touchpad acceleration.
 
 #  ╭─ ✦ Mouse ────────────────────────────────────────────────────────────
-# Remove a aceleração: o ponteiro acompanha 1:1 o movimento físico.
+# Removes acceleration: the pointer follows physical movement 1:1.
 [input.mouse]
 accel_profile = "flat"
 # sensitivity = 0.0
 
-#  ╭─ ✦ Foco ─────────────────────────────────────────────────────────────
-# O foco segue o ponteiro entre janelas em mosaico, flutuantes e fixadas.
+#  ╭─ ✦ Focus ─────────────────────────────────────────────────────────────
+# Focus follows the pointer between tiled, floating and pinned windows.
 [input.focus]
 follows_mouse = true
-# hover_raises = false # Hover só foca; cliques e atalhos elevam.
+# hover_raises = false # Hover only focuses; clicks and shortcuts raise.
 
-#  ╭─ ✦ Toque ────────────────────────────────────────────────────────────
-# Restringe o toque a uma tela.
+#  ╭─ ✦ Touch ────────────────────────────────────────────────────────────
+# Restricts touch to one screen.
 # [input.touch]
 # enabled = true
 # map_to_output = "eDP-1"

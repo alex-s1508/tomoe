@@ -8,18 +8,18 @@
 #  ║  ✦ Scratchpads                                                      ║
 #  ╚═════════════════════════════════════════════════════════════════════╝
 
-#  ╭─ ✦ Definição ────────────────────────────────────────────────────────
-# Um scratchpad nomeado pode abrir um aplicativo quando alternado vazio.
+#  ╭─ ✦ Definition ────────────────────────────────────────────────────────
+# A named scratchpad can open an app when toggled while empty.
 # [[scratchpad]]
 # name = "music"
 # spawn_when_empty = "spotify"
 
-#  ╭─ ✦ Regras ───────────────────────────────────────────────────────────
+#  ╭─ ✦ Rules ───────────────────────────────────────────────────────────
 # [[window_rule]]
 # match.app_id = "^spotify$"
 # default_scratchpad = "music"
 
-# Cada scratchpad pode ter cores de borda próprias.
+# Each scratchpad can have its own border colors.
 # [[window_rule]]
 # match.is_scratchpad = true
 # border_color_focused = "#E5C07BFF"

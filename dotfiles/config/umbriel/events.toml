@@ -5,12 +5,12 @@
 #       ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
 #
 #  ╔═════════════════════════════════════════════════════════════════════╗
-#  ║  ✦ Eventos                                                          ║
+#  ║  ✦ Events                                                          ║
 #  ╚═════════════════════════════════════════════════════════════════════╝
 
-#  ╭─ ✦ Tampa do notebook ────────────────────────────────────────────────
-# Remove o painel do desktop com a tampa fechada e o restaura ao abrir.
-# Troque eDP-1 por um nome de `umbriel outputs`.
+#  ╭─ ✦ Laptop lid ────────────────────────────────────────────────
+# Hides the desktop panel when the lid is closed and restores it when opened.
+# Replace eDP-1 with a name from `umbriel outputs`.
 # [events]
 # lid_close = "umbriel msg output-disable eDP-1"
 # lid_open = "umbriel msg output-enable eDP-1"

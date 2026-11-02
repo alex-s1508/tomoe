@@ -5,27 +5,27 @@
 #          ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
 #
 #  ╔═════════════════════════════════════════════════════════════════════╗
-#  ║  ✦ Cores                                                            ║
+#  ║  ✦ Colors                                                            ║
 #  ╚═════════════════════════════════════════════════════════════════════╝
 
-#  ╭─ ✦ Paleta ───────────────────────────────────────────────────────────
-# Paleta monocromática preto e branco.
+#  ╭─ ✦ Palette ───────────────────────────────────────────────────────────
+# Monochrome black-and-white palette.
 [colors]
 accent_primary = "#FFFFFFFF"
 accent_secondary = "#BFBFBFFF"
 background = "#000000FF"
 text_primary = "#E6E6E6FF"
 text_muted = "#808080FF"
-# Cor exibida se a tela de bloqueio demorar a aparecer.
+# Color shown if the lock screen takes time to appear.
 # backdrop = "#000000FF"
 
-#  ╭─ ✦ Bordas ───────────────────────────────────────────────────────────
+#  ╭─ ✦ Borders ───────────────────────────────────────────────────────────
 [colors.border]
 focused = "#FFFFFFFF"
 unfocused = "#3A3A3AFF"
 outer = "#141414FF"
 
-#  ╭─ ✦ Barra de título ──────────────────────────────────────────────────
+#  ╭─ ✦ Title bar ──────────────────────────────────────────────────
 [colors.title_bar]
 background = "#141414FF"
 background_unfocused = "#0A0A0AFF"
@@ -35,8 +35,8 @@ close = "#FFFFFFFF"
 maximize = "#BFBFBFFF"
 minimize = "#808080FF"
 
-#  ╭─ ✦ Botões ───────────────────────────────────────────────────────────
-# Paleta opcional dos botões. As cores dos glifos valem mesmo sem fundo.
+#  ╭─ ✦ Buttons ───────────────────────────────────────────────────────────
+# Optional button palette. Glyph colors apply even without a background.
 # close_glyph = "#000000FF"
 # close_glyph_hover = "#000000FF"
 # maximize_glyph = "#000000FF"

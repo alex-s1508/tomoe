@@ -5,27 +5,191 @@
 #       ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
 #
 #  ╔═════════════════════════════════════════════════════════════════════╗
-#  ║  ✦ Noctalia                                                         ║
+#  ║  ✦ Noctalia (export completo, portable)                               ║
 #  ╚═════════════════════════════════════════════════════════════════════╝
+# Exported from ~/.local/state/noctalia/settings.toml.
+# The installer replaces the __WALLPAPER__ and __AVATAR__ placeholders.
+
+config_version = 16
 
 #  ╭─ ✦ Shell ────────────────────────────────────────────────────────────
 [shell]
-# Sobe o agente de autenticação do polkit junto com o shell.
 polkit_agent = true
+screen_time_enabled = true
+settings_expand_all_groups = true
+settings_window_translucent = true
+avatar_path = "__AVATAR__"
 
-    # Mantém o wallpaper, as cores e o layout sincronizados com o greeter.
     [shell.greeter_sync]
     auto_sync = true
 
-#  ╭─ ✦ Tema ─────────────────────────────────────────────────────────────
-# Paleta monocromática gerada a partir do wallpaper.
+    [shell.launcher.providers.emoji]
+    global = false
+
+    [shell.panel]
+    control_center_placement = "floating"
+    open_near_click_clipboard = true
+    open_near_click_control_center = true
+    transparency_mode = "soft"
+    wallpaper_placement = "floating"
+    wallpaper_position = "center"
+
+#  ╭─ ✦ Theme ─────────────────────────────────────────────────────────────
 [theme]
 mode = "dark"
 source = "wallpaper"
 wallpaper_scheme = "m3-monochrome"
 
-#  ╭─ ✦ Wallpaper ────────────────────────────────────────────────────────
-# O instalador troca __WALLPAPER__ pelo caminho localizado em
-# XDG_PICTURES_DIR/Wallpapers.
+#  ╭─ ✦ Brightness (DDC/CI) ──────────────────────────────────────────────
+[brightness]
+enable_ddcutil = true
+
+#  ╭─ ✦ Main bar ──────────────────────────────────────────────────
+[bar.default]
+center = [ "taskbar" ]
+contact_shadow = true
+end = [ "privacy", "tray", "group:g4", "group:g2" ]
+margin_ends = 0
+position = "left"
+radius_bottom_left = 0
+radius_top_left = 0
+start = [ "group:g3", "group:g1" ]
+
+    # Encapsulated groups of the bar.
+    [[bar.default.capsule_group]]
+    accordion = false
+    accordion_direction = "end"
+    border_width = 1.0
+    enabled = true
+    fill = "surface_container"
+    id = "g1"
+    members = [ "media", "audio_visualizer" ]
+    opacity = 1.0
+    padding = 6.0
+
+    [[bar.default.capsule_group]]
+    accordion = false
+    accordion_direction = "end"
+    border_width = 1.0
+    enabled = true
+    fill = "surface_container"
+    id = "g2"
+    members = [ "clock", "weather" ]
+    opacity = 1.0
+    padding = 6.0
+
+    [[bar.default.capsule_group]]
+    accordion = false
+    accordion_direction = "end"
+    border_width = 1.0
+    enabled = true
+    fill = "surface_container"
+    id = "g3"
+    members = [ "launcher", "bar", "workspaces" ]
+    opacity = 1.0
+    padding = 6.0
+
+    [[bar.default.capsule_group]]
+    accordion = false
+    accordion_direction = "end"
+    border_width = 1.0
+    enabled = true
+    fill = "surface_container"
+    id = "g4"
+    members = [ "notifications", "input_volume", "output_volume", "network", "bluetooth", "brightness", "battery" ]
+    opacity = 1.0
+    padding = 6.0
+
+#  ╭─ ✦ Idle ─────────────────────────────────────────────────────────────
+[idle]
+behavior_order = [ "lock", "screen-off", "lock-and-suspend" ]
+
+    [idle.behavior.lock]
+    action = "lock"
+    enabled = true
+    timeout = 1800.0
+
+    [idle.behavior.lock-and-suspend]
+    action = "lock_and_suspend"
+    enabled = true
+    timeout = 5400.0
+
+    [idle.behavior.screen-off]
+    action = "screen_off"
+    enabled = true
+    timeout = 2160.0
+
+#  ╭─ ✦ Location ─────────────────────────────────────────────────────────
+[location]
+auto_locate = true
+
+#  ╭─ ✦ Plugins ──────────────────────────────────────────────────────────
+[plugins]
+enabled = [ "noctalia/umbriel-companion" ]
+
+#  ╭─ ✦ Papel of parede ──────────────────────────────────────────────────
+[wallpaper.last]
+path = "__WALLPAPER__"
+
+[wallpaper.monitors.HDMI-A-1]
+path = "__WALLPAPER__"
+
+[wallpaper.monitors.eDP-1]
+path = "__WALLPAPER__"
+
 [wallpaper.default]
 path = "__WALLPAPER__"
+
+#  ╭─ ✦ Widgets ──────────────────────────────────────────────────────────
+[widget.audio_visualizer]
+bands = 14
+interactive = false
+
+[widget.bar]
+type = "noctalia/umbriel-companion:bar"
+
+[widget.battery]
+show_label = false
+
+[widget.bluetooth]
+enabled = false
+
+[widget.brightness]
+enabled = false
+show_label = false
+
+[widget.control-center]
+enabled = false
+
+[widget.input_volume]
+show_label = false
+
+[widget.keyboard_layout]
+show_label = false
+
+[widget.media]
+scale = 1.1000000000000001
+
+[widget.network]
+show_label = false
+
+[widget.output_volume]
+show_label = false
+
+[widget.privacy]
+hide_inactive = true
+
+[widget.tray]
+capsule = true
+
+[widget.volume]
+enabled = false
+show_label = false
+
+[widget.weather]
+show_condition = false
+show_temperature = false
+
+#  ╭─ ✦ Centro of controle ───────────────────────────────────────────────
+[control_center]
+sidebar_section = "none"

@@ -5,18 +5,18 @@
 #          ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
 #
 #  ╔═════════════════════════════════════════════════════════════════════╗
-#  ║  ✦ Monitores                                                        ║
+#  ║  ✦ Monitors                                                        ║
 #  ╚═════════════════════════════════════════════════════════════════════╝
 
-#  ╭─ ✦ Saídas ───────────────────────────────────────────────────────────
-# Saídas específicas da máquina. Ajuste conforme `umbriel outputs`.
-# Monitor HDMI-A-1 (Principal à esquerda)
+#  ╭─ ✦ Outputs ───────────────────────────────────────────────────────────
+# Machine-specific outputs. Adjust them with `umbriel outputs`.
+# Monitor HDMI-A-1 (primary, left)
 [output.HDMI-A-1]
 mode = "1920x1080@180"
 position = [0, 0]
 scale = 1.0
 
-# Monitor eDP-1 (Notebook à direita, com centros alinhados por uma linha horizontal)
+# Monitor eDP-1 (notebook on the right; centers aligned horizontally)
 [output.eDP-1]
 mode = "1920x1080@120"
 position = [-1536, 86]

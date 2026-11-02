@@ -5,15 +5,15 @@
 #       ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
 #
 #  ╔═════════════════════════════════════════════════════════════════════╗
-#  ║  ✦ Animações                                                        ║
+#  ║  ✦ Animations                                                        ║
 #  ╚═════════════════════════════════════════════════════════════════════╝
 
-#  ╭─ ✦ Geral ────────────────────────────────────────────────────────────
+#  ╭─ ✦ General ────────────────────────────────────────────────────────────
 [animation]
 enabled = true
 duration_ms = 250
 
-#  ╭─ ✦ Janelas ──────────────────────────────────────────────────────────
+#  ╭─ ✦ Windows ──────────────────────────────────────────────────────────
 [animation.windows_in]
 style = "popin"
 scale = 0.5
@@ -22,25 +22,22 @@ scale = 0.5
 style = "popin"
 scale = 0.8
 
-# Opacidade e blur das regras de janela esmaecem ao mudar o foco por padrão.
+# Window-rule opacity and blur fade by default when focus changes.
 [animation.windows_opacity]
 enabled = true
 # curve = "spring:1,900"
-# duration_ms = 250 # Para curvas sem spring; o spring define a própria duração.
+# duration_ms = 250 # For curves without spring; the spring sets its own duration.
 
 #  ╭─ ✦ Workspaces ───────────────────────────────────────────────────────
 [animation.workspaces]
 style = "slide"
 
-# Revelação ao vivo do workspace (veja docs/user/animation.md).
-# Inclua o effects/animation/workspace_wipe/effect.toml.
+# Live workspace reveal (see docs/user/animation.md): include workspace_wipe effect.
 # [animation.workspaces]
 # style = "reveal"
 # effect = "workspace_wipe"
-# duration_ms = 300
-# curve = "easeout"
 
-#  ╭─ ✦ Diálogos ─────────────────────────────────────────────────────────
-# Sombra sobre a janela enquanto um diálogo modal está anexado.
+#  ╭─ ✦ Dialogs ─────────────────────────────────────────────────────────
+# Shadow over the window while a modal dialog is attached.
 # [animation.dialogs]
 # dim = 0.3

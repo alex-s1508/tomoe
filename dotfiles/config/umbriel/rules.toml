@@ -5,14 +5,13 @@
 #       ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
 #
 #  ╔═════════════════════════════════════════════════════════════════════╗
-#  ║  ✦ Regras de janelas                                                ║
+#  ║  ✦ Window rules                                                ║
 #  ╚═════════════════════════════════════════════════════════════════════╝
 
-#  ╭─ ✦ Geral ────────────────────────────────────────────────────────────
-# Regras se combinam em ordem, com valores posteriores sobrepondo os anteriores.
+#  ╭─ ✦ General ────────────────────────────────────────────────────────────
+# Rules are applied in order; later values override earlier ones.
 
-# Desfoca janelas sobre o blur do wallpaper em cache. Use blur_optimized = false
-# para incluir janelas sobrepostas atrás delas, com custo de GPU.
+# Blurs windows over cached wallpaper blur. Use blur_optimized = false to include overlapping windows behind them (GPU cost).
 [[window_rule]]
 blur = true
 
@@ -24,44 +23,44 @@ default_maximize = false
 default_position = { x = 20, y = 20, anchor = "bottom_right" }
 
 #  ╭─ ✦ Exemplos ─────────────────────────────────────────────────────────
-# Mantém menus de jogos dentro da janela; um atalho de foco ou workspace solta o ponteiro.
+# Keeps game menus inside the window; a focus or workspace shortcut releases the pointer.
 # [[window_rule]]
 # match.app_id = "^steam_app_.*$"
 # confine_pointer = true
 
-# Mantém atalhos do compositor disponíveis com uma janela de máquina virtual focada.
+# Keeps compositor shortcuts available while a virtual machine window is focused.
 # [[window_rule]]
 # match.app_id = "^virt-manager$"
 # allow_shortcuts_inhibit = false
 
-# Mantém um aplicativo desenhando enquanto oculto em outro workspace.
+# Keeps an app rendering while hidden on another workspace.
 # [[window_rule]]
 # match.app_id = "^obs$"
 # background_render = true
 
-# Mantém janelas visíveis localmente mas ausentes de capturas e gravações.
+# Keeps windows visible locally but absent from captures and recordings.
 # [[window_rule]]
 # match.app_id = "^private-app$"
 # block_capture = true
 
-# Mantém diálogos modais de um aplicativo como janelas comuns.
+# Keeps an app's modal dialogs as normal windows.
 # [[window_rule]]
 # match.app_id = "^gimp"
 # match.is_dialog = true
 # attach_to_parent = false
 
-# Oculta barras de título ativas apenas com a janela maximizada nas bordas.
+# Hides title bars only when a window is maximized to the edges.
 # [[window_rule]]
 # match.is_maximized_to_edges = true
 # title_bar = "off"
 
-# Destaca a janela transmitida; os espectadores não veem a borda.
+# Highlights the streamed window; viewers do not see the border.
 # [[window_rule]]
 # match.is_cast_target = true
 # border_color_focused = "#40C057FF"
 # border_color_unfocused = "#40C057FF"
 
-# Deixa sem decoração um aplicativo que desenha cantos e sombra próprios.
+# Leaves an app undecorated when it draws its own corners and shadow.
 # [[window_rule]]
 # match.app_id = "^org[.]gnome[.]TextEditor$"
 # border_width = 0

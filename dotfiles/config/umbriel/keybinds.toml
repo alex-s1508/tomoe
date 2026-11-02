@@ -5,29 +5,32 @@
 #       ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
 #
 #  ╔═════════════════════════════════════════════════════════════════════╗
-#  ║  ✦ Atalhos                                                          ║
+#  ║  ✦ Keybinds                                                          ║
 #  ╚═════════════════════════════════════════════════════════════════════╝
 
 #  ╭─ ✦ Nota ─────────────────────────────────────────────────────────────
-# Definir esta tabela substitui o conjunto interno; todo atalho ativo deve
-# estar listado aqui. Os aplicativos padrão ficam em apps.toml.
+# This table replaces the internal set; every active keybind must
+# be listed here.
 [keybinds]
 
-#  ╭─ ✦ Aplicativos ──────────────────────────────────────────────────────
-# Comandos padrão. Mantenha em sincronia com apps.toml.
+#  ╭─ ✦ Apps ──────────────────────────────────────────────────────
+# Default app commands. Update here if you change a default app.
 "Mod+Return"            = { action = "spawn kitty", repeat = false }
 "Mod+B"                 = { action = "spawn gtk-launch \"$(xdg-settings get default-web-browser)\"", repeat = false }
-"Mod+E"                 = { action = "spawn gio open \"$HOME\"", repeat = false }
-"Mod+Space"             = { action = "spawn noctalia msg panel-toggle launcher", repeat = false }
+"Mod+E"                 = { action = "spawn nautilus \"$HOME\"", repeat = false }
+"Mod+N"                 = { action = "spawn code", repeat = false }
+"Mod+V"                 = { action = "spawn noctalia msg panel-toggle clipboard", repeat = false }
+"Mod+Ctrl+W"            = { action = "spawn noctalia msg panel-toggle wallpaper", repeat = false }
+"Mod+Space"            = { action = "spawn noctalia msg panel-toggle launcher", repeat = false }
 
-#  ╭─ ✦ Sessão ───────────────────────────────────────────────────────────
+#  ╭─ ✦ Session ───────────────────────────────────────────────────────────
 "Mod+Q"                 = { action = "window-close", repeat = false }
-"Mod+Escape"            = "session-quit"
+"Mod+Escape"            = { action = "spawn noctalia msg panel-toggle control-center", repeat = false }
+"Mod+Ctrl+Escape"       = "session-quit"
 "Mod+Shift+Escape"      = { action = "shortcuts-inhibit-toggle", allow_when_inhibited = true, repeat = false }
 
-#  ╭─ ✦ Multimídia ───────────────────────────────────────────────────────
-# Volume e brilho passam pelo shell Noctalia para exibir os OSDs. Seguros com
-# a sessão bloqueada.
+#  ╭─ ✦ Multimedia ───────────────────────────────────────────────────────
+# Volume and brightness use Noctalia OSDs and are safe while locked.
 "XF86AudioRaiseVolume"  = { action = "spawn noctalia msg volume-up", allow_when_locked = true }
 "XF86AudioLowerVolume"  = { action = "spawn noctalia msg volume-down", allow_when_locked = true }
 "XF86AudioMute"         = { action = "spawn noctalia msg volume-mute", allow_when_locked = true, repeat = false }
@@ -37,7 +40,7 @@
 "XF86MonBrightnessUp"   = { action = "spawn noctalia msg brightness-up", allow_when_locked = true }
 "XF86MonBrightnessDown" = { action = "spawn noctalia msg brightness-down", allow_when_locked = true }
 
-#  ╭─ ✦ Foco ─────────────────────────────────────────────────────────────
+#  ╭─ ✦ Focus ─────────────────────────────────────────────────────────────
 "Mod+Left"              = "window-focus-left"
 "Mod+Down"              = "window-focus-down"
 "Mod+Up"                = "window-focus-up"
@@ -48,7 +51,7 @@
 "Mod+L"                 = "window-focus-right"
 "Mod+F1"                = "window-focus-next"
 
-#  ╭─ ✦ Movimentação ─────────────────────────────────────────────────────
+#  ╭─ ✦ Movement ─────────────────────────────────────────────────────
 "Mod+Shift+Left"        = "column-move-left"
 "Mod+Shift+Down"        = "window-move-down"
 "Mod+Shift+Up"          = "window-move-up"
@@ -58,13 +61,18 @@
 "Mod+Shift+K"           = "window-move-up"
 "Mod+Shift+L"           = "column-move-right"
 
-#  ╭─ ✦ Janelas ──────────────────────────────────────────────────────────
+# Movement between monitors (Wayland outputs).
+"Mod+Ctrl+Left"         = "window-move-to-output-left"
+"Mod+Ctrl+Right"        = "window-move-to-output-right"
+"Mod+Ctrl+Up"            = "window-move-to-output-up"
+"Mod+Ctrl+Down"          = "window-move-to-output-down"
+
+#  ╭─ ✦ Windows ──────────────────────────────────────────────────────────
 "Mod+T"                 = { action = "window-toggle-floating", repeat = false }
 "Mod+Shift+T"           = { action = "window-focus-switch-floating", repeat = false }
 "Mod+P"                 = { action = "window-toggle-pinned", repeat = false }
 
-# Mod+F faz o mesmo que o duplo clique no topo da janela: preenche a área útil
-# sem entrar em tela cheia. Mod+Shift+F alterna a tela cheia real.
+# Mod+F fills the usable area without fullscreen (same as double-clicking the title bar). Mod+Shift+F toggles true fullscreen.
 "Mod+F"                 = { action = "window-toggle-maximize", repeat = false }
 "Mod+Shift+F"           = { action = "window-toggle-fullscreen", repeat = false }
 "Mod+Ctrl+F"            = { action = "window-toggle-maximize-to-edges", repeat = false }
@@ -76,7 +84,7 @@
 "Mod+Ctrl+Comma"        = "window-consume-from-left"
 "Mod+Ctrl+Period"       = "window-consume-from-right"
 
-# Requer layout.mode = "dwindle".
+# Requires layout.mode = "dwindle".
 # "Mod+Alt+T"             = "layout-toggle-split"
 "Mod+W"                 = { action = "column-toggle-tabbed", repeat = false }
 "Mod+Alt+Right"         = "column-focus-tab-next"
@@ -84,11 +92,11 @@
 "Mod+WheelUp"           = "window-focus-left"
 "Mod+WheelDown"         = "window-focus-right"
 
-# Alternador de janelas estilo Windows: segure Alt e use Tab/Shift+Tab.
+# Windows-style window switcher: hold Alt and use Tab/Shift+Tab.
 "Alt+Tab"               = { action = "spawn noctalia msg window-switcher hold", repeat = false }
 
 #  ╭─ ✦ Workspaces ───────────────────────────────────────────────────────
-# Move o workspace inteiro, mantendo nome, layout e janelas.
+# Moves the whole workspace, keeping its name, layout and windows.
 # "Mod+Ctrl+Page_Down"    = "workspace-move-to-output-next"
 # "Mod+Ctrl+Page_Up"      = "workspace-move-to-output-previous"
 # "Mod+Ctrl+W"            = "workspace-move-to-output current WEB --output DP-1"
@@ -125,9 +133,10 @@
 
 
 #  ╭─ ✦ Scratchpads ──────────────────────────────────────────────────────
-# Mod+S abre/fecha o scratchpad ativo.
+# Mod+S opens or closes the active scratchpad.
 "Mod+S"                 = { action = "scratchpad-toggle", repeat = false }
-"Mod+Shift+S"           = { action = "window-move-to-scratchpad", repeat = false }
+"Mod+Ctrl+S"            = { action = "window-move-to-scratchpad", repeat = false }
+"Mod+Shift+S"           = { action = "spawn noctalia msg screenshot-region --directory \"$(xdg-user-dir PICTURES)/Screenshots\" --save-to-file --copy-to-clipboard", repeat = false }
 
 #  ╭─ ✦ Overview ─────────────────────────────────────────────────────────
 "Mod+Tab"               = { action = "overview-toggle", repeat = false }

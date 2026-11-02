@@ -12,7 +12,7 @@
 [terminal]
 vt = 1
 
-#  ╭─ ✦ Sessão padrão ────────────────────────────────────────────────────
+#  ╭─ ✦ Default session ────────────────────────────────────────────────────
 [default_session]
 command = "/usr/bin/noctalia-greeter-session"
 user = "greeter"
