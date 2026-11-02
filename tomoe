@@ -4,10 +4,11 @@ set -Eeuo pipefail
 # ---------------------------------------------------------------------------
 # Tomoe installer
 # ---------------------------------------------------------------------------
-# Instala e configura Umbriel + Noctalia + Noctalia Greeter em CachyOS/Arch.
-# Uso: ./tomoe install [--dry-run] [--yes] [--reboot]
+# Install and configure Umbriel + Noctalia + Noctalia Greeter on CachyOS/Arch.
+# Usage: ./tomoe install [--dry-run] [--yes] [--reboot]
 # ---------------------------------------------------------------------------
 
+umask 077
 repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 dotfiles="$repo_root/dotfiles"
 state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/tomoe"
@@ -25,139 +26,80 @@ BAR_WIDTH=34
 if [[ -t 1 ]]; then
     C_RESET=$'\033[0m'
     C_DIM=$'\033[2m'
-    C_BOLD=$'\033[1m'
-    C_ACCENT=$'\033[38;5;220m'
     C_GREEN=$'\033[38;5;114m'
     C_RED=$'\033[38;5;203m'
     C_YELLOW=$'\033[38;5;179m'
 else
     C_RESET=""
     C_DIM=""
-    C_BOLD=""
-    C_ACCENT=""
     C_GREEN=""
     C_RED=""
     C_YELLOW=""
 fi
 
 # ---------------------------------------------------------------------------
-# Idioma (pt-BR ou inglês)
+# Messages
 # ---------------------------------------------------------------------------
-locale_name="${LC_ALL:-${LC_MESSAGES:-${LANGUAGE:-${LANG:-}}}}"
-locale_name="${locale_name,,}"
-
-if [[ "$locale_name" == pt* ]]; then
-    msg_sudo="Permissão de administrador necessária. Digite a senha uma única vez."
-    msg_confirm="Deseja instalar a T O M O E 巴 dotfile agora? [s/N] "
-    msg_cancelled="Instalação cancelada."
-    msg_dry_run="Modo de simulação: nenhuma alteração será feita no sistema."
-    msg_dry_done="Simulação concluída. Nenhuma alteração foi feita."
-    msg_error_line="erro na linha"
-    msg_dry_reboot="Simulação: o reboot não será executado."
-    msg_step_preflight="Verificando o sistema e os arquivos da dotfile"
-    msg_step_remove="Removendo pacotes substituídos do CachyOS"
-    msg_step_pacman="Instalando pacotes dos repositórios oficiais"
-    msg_step_aur="Instalando pacotes da AUR"
-    msg_step_validate_repo="Validando a configuração modular do Umbriel"
-    msg_step_umbriel="Copiando a configuração do Umbriel"
-    msg_step_desktop="Aplicando Chrome, atalhos e wallpapers"
-    msg_step_noctalia="Configurando o Noctalia, papéis de parede e o Nautilus"
-    msg_step_greetd="Configurando o greetd e o Noctalia Greeter"
-    msg_step_refresh_validate="Validando as configurações do repositório"
-    msg_step_refresh_files="Atualizando as configurações implantadas"
-    msg_step_refresh_greetd="Atualizando a configuração do greetd"
-    msg_refresh="Atualização das configurações implantadas"
-    msg_refresh_confirm="Aplicar o refresh das configurações implantadas? [s/N] "
-    msg_refresh_done="Refresh concluído."
-    msg_step_validate="Validando a configuração instalada"
-    msg_step_restart="Habilitando e reiniciando o greetd"
-    msg_done="Tomoe instalada com sucesso."
-    msg_log="Log:"
-    msg_backups="Backups:"
-    msg_reboot="Deseja reiniciar o computador agora? [s/N] "
-    msg_reboot_skip="Reboot adiado. Reinicie manualmente quando quiser."
-    msg_reboot_yes="Reiniciando o computador..."
-    msg_need_tty="O instalador precisa de um terminal interativo. Use --yes para instalar sem confirmação."
-    msg_run_as_user="Execute o instalador como seu usuário normal, não como root."
-    msg_missing="Arquivo obrigatório não encontrado:"
-    msg_missing_cmd="Comando obrigatório não encontrado:"
-    msg_invalid_config="A configuração do Umbriel é inválida. Corrija os arquivos e tente novamente."
-    msg_umbriel_missing="O Umbriel não foi encontrado após a instalação."
-    msg_greetd_deferred="A sessão atual é gerenciada pelo greetd; o reinício foi adiado para o próximo boot."
-    msg_install_failed="Falha ao instalar"
-    msg_remove_failed="Não foi possível remover alguns pacotes; siga com o restante."
-    msg_yay_missing="O yay não foi encontrado; não é possível instalar pacotes da AUR."
-    msg_backup_failed="Falha ao criar backup de"
-    msg_keep_pkg="mantendo %s: necessário por %s"
-    msg_reference_missing="referência /usr/share/umbriel/config.toml não encontrada"
-    msg_greetd_enable_failed="não foi possível habilitar o greetd"
-    msg_greetd_restart_failed="não foi possível reiniciar o greetd"
-    msg_greeter_group_failed="não foi possível adicionar greeter ao grupo video"
-    msg_log_tail="Últimas linhas do log:"
-else
-    msg_sudo="Administrator permission is required. Enter your password once."
-    msg_confirm="Install the T O M O E 巴 dotfile now? [y/N] "
-    msg_cancelled="Installation cancelled."
-    msg_dry_run="Dry-run mode: no changes will be made to the system."
-    msg_dry_done="Dry run complete. No changes were made."
-    msg_error_line="error at line"
-    msg_dry_reboot="Dry-run: reboot will not be executed."
-    msg_step_preflight="Checking the system and dotfile files"
-    msg_step_remove="Removing replaced CachyOS packages"
-    msg_step_pacman="Installing packages from the official repositories"
-    msg_step_aur="Installing AUR packages"
-    msg_step_validate_repo="Validating the modular Umbriel configuration"
-    msg_step_umbriel="Copying the Umbriel configuration"
-    msg_step_desktop="Applying Chrome, desktop entries and wallpapers"
-    msg_step_noctalia="Configuring Noctalia, wallpapers and Nautilus"
-    msg_step_greetd="Configuring greetd and Noctalia Greeter"
-    msg_step_refresh_validate="Validating the repository configuration"
-    msg_step_refresh_files="Updating the deployed configuration"
-    msg_step_refresh_greetd="Updating the greetd configuration"
-    msg_refresh="Refresh of the deployed configuration"
-    msg_refresh_confirm="Apply the refresh of the deployed configuration? [y/N] "
-    msg_refresh_done="Refresh complete."
-    msg_step_validate="Validating the installed configuration"
-    msg_step_restart="Enabling and restarting greetd"
-    msg_done="Tomoe installed successfully."
-    msg_log="Log:"
-    msg_backups="Backups:"
-    msg_reboot="Restart the computer now? [y/N] "
-    msg_reboot_skip="Reboot postponed. Restart manually when ready."
-    msg_reboot_yes="Restarting the computer..."
-    msg_need_tty="The installer needs an interactive terminal. Use --yes to install without confirmation."
-    msg_run_as_user="Run the installer as your normal user, not as root."
-    msg_missing="Required file not found:"
-    msg_missing_cmd="Required command not found:"
-    msg_invalid_config="The Umbriel configuration is invalid. Fix the files and try again."
-    msg_umbriel_missing="Umbriel was not found after installation."
-    msg_greetd_deferred="The current session is managed by greetd; the restart was postponed to the next boot."
-    msg_install_failed="Failed to install"
-    msg_remove_failed="Some packages could not be removed; continuing with the rest."
-    msg_yay_missing="yay was not found; cannot install AUR packages."
-    msg_backup_failed="Failed to back up"
-    msg_keep_pkg="keeping %s: required by %s"
-    msg_reference_missing="reference /usr/share/umbriel/config.toml not found"
-    msg_greetd_enable_failed="could not enable greetd"
-    msg_greetd_restart_failed="could not restart greetd"
-    msg_greeter_group_failed="could not add greeter to the video group"
-    msg_log_tail="Last log lines:"
-fi
+msg_sudo="Administrator permission is required. Enter your password once."
+msg_confirm="Install the T O M O E 巴 dotfiles now? [y/N] "
+msg_cancelled="Installation cancelled."
+msg_dry_run="Dry-run mode: no changes will be made to the system."
+msg_dry_done="Dry run complete. No changes were made."
+msg_error_line="error at line"
+msg_dry_reboot="Dry-run: reboot will not be executed."
+msg_step_preflight="Checking system and dotfiles"
+msg_step_remove="Removing replaced CachyOS packages"
+msg_step_pacman="Installing packages from the official repositories"
+msg_step_aur="Installing AUR packages"
+msg_step_validate_repo="Validating the modular Umbriel configuration"
+msg_step_umbriel="Copying the Umbriel configuration"
+msg_step_desktop="Applying Chrome, desktop entries and wallpapers"
+msg_step_noctalia="Configuring Noctalia and wallpapers"
+msg_step_greetd="Configuring greetd and Noctalia Greeter"
+msg_step_validate="Validating the installed configuration"
+msg_step_restart="Enabling and restarting greetd"
+msg_done="Tomoe installed successfully."
+msg_log="Log:"
+msg_backups="Backups:"
+msg_reboot="Restart the computer now? [y/N] "
+msg_reboot_skip="Reboot postponed. Restart manually when ready."
+msg_reboot_yes="Restarting the computer..."
+msg_need_tty="The installer needs an interactive terminal. Use --yes to install without confirmation."
+msg_run_as_user="Run the installer as your normal user, not as root."
+msg_missing="Required file not found:"
+msg_missing_cmd="Required command not found:"
+msg_invalid_config="The Umbriel configuration is invalid. Fix the files and try again."
+msg_umbriel_missing="Umbriel was not found after installation."
+msg_greetd_deferred="The current session is managed by greetd; the restart was postponed to the next boot."
+msg_install_failed="Failed to install"
+msg_remove_failed="Some packages could not be removed; continuing with the rest."
+msg_yay_missing="yay was not found; cannot install AUR packages."
+msg_backup_failed="Failed to back up"
+msg_keep_pkg="keeping %s: required by %s"
+msg_reference_missing="reference /usr/share/umbriel/config.toml not found"
+msg_greetd_enable_failed="could not enable greetd"
+msg_greetd_restart_failed="could not restart greetd"
+msg_greeter_group_failed="could not add greeter to the video group"
+msg_log_tail="Last log lines:"
 
 # ---------------------------------------------------------------------------
-# Utilidades
+# Helpers
 # ---------------------------------------------------------------------------
 usage() {
     cat <<'USAGE'
 Usage:
   ./tomoe install [--dry-run] [--yes] [--reboot]
-  ./tomoe refresh [--dry-run] [--yes]
+  ./tomoe update [--dry-run] [--yes] [--all|--umbriel|--noctalia|--fastfetch|--chrome|--greetd|--monitors]
+  ./tomoe hidden-apps [--list|--show|--hide]
 
   --dry-run   Show every action without changing the system.
   --yes, -y   Skip the installation confirmation (useful for automation).
   --reboot    Reboot automatically when the installation finishes.
+  --list      List hidden apps.
+  --show      Show hidden apps again.
+  --hide      Hide apps (default).
 
-The package lists live in dotfiles/packages/:
+Package lists live in dotfiles/packages/:
   repo.txt      official repository packages
   aur.txt       AUR packages installed with yay
   remove.txt    CachyOS packages removed when safe
@@ -223,7 +165,7 @@ ask_install() {
     local answer=""
     read -r -p "$msg_confirm" answer || answer=""
     case "$answer" in
-        s|S|sim|SIM|Sim|y|Y|yes|YES|Yes) return 0 ;;
+        y|Y|yes|YES|Yes) return 0 ;;
         *) printf '%s\n' "$msg_cancelled"; exit 0 ;;
     esac
 }
@@ -271,7 +213,10 @@ trap 'on_error $LINENO' ERR
 
 draw_bar() {
     local mark="${1:-}"
+    local text="${2:-}"
+    [[ -n "$text" ]] && mark="$mark $text"
     local pct=$((STEP * 100 / TOTAL_STEPS))
+    (( pct > 100 )) && pct=100
     local filled=$((STEP * BAR_WIDTH / TOTAL_STEPS))
     local empty=$((BAR_WIDTH - filled))
     local bar="" emptybar=""
@@ -284,13 +229,13 @@ draw_bar() {
 
 step_begin() {
     STEP=$((STEP + 1))
-    printf '\n%s▸ [%d/%d]%s %s\n' "$C_ACCENT" "$STEP" "$TOTAL_STEPS" "$C_RESET" "$1"
-    draw_bar
+    CURRENT_STEP="$1"
+    printf '\r\033[2K  '
+    draw_bar "▸" "$CURRENT_STEP"
 }
 
 step_done() {
-    draw_bar "✓"
-    printf '\n'
+    draw_bar "✓" "$CURRENT_STEP"
 }
 
 run_logged() {
@@ -306,7 +251,7 @@ run_logged() {
     local i=0 idx
     while kill -0 "$pid" 2>/dev/null; do
         idx=$((i % ${#spin}))
-        draw_bar "${spin:idx:1}"
+        draw_bar "${spin:idx:1}" "$CURRENT_STEP"
         i=$((i + 1))
         sleep 0.12
     done
@@ -317,7 +262,7 @@ run_logged() {
         rc=$?
     fi
     if [[ "$rc" -ne 0 ]]; then
-        draw_bar "✗"
+        draw_bar "✗" "$CURRENT_STEP"
         printf '\n%s  ✗ %s (exit %d); see %s%s\n' "$C_RED" "$*" "$rc" "$log_file" "$C_RESET" >&2
     fi
     return "$rc"
@@ -383,7 +328,7 @@ install_file() {
 }
 
 # ---------------------------------------------------------------------------
-# Etapas
+# Steps
 # ---------------------------------------------------------------------------
 validate_config() {
     local target="$1"
@@ -472,10 +417,24 @@ remove_packages() {
         || warn "$msg_remove_failed"
 }
 
+
+valid_package_name() {
+    [[ "$1" =~ ^[A-Za-z0-9][A-Za-z0-9._+-]*$ ]]
+}
+
 install_pacman_packages() {
     local -a pkgs=()
     mapfile -t pkgs < <(read_list "$dotfiles/packages/repo.txt")
+    local -a clean=()
     local pkg
+    for pkg in "${pkgs[@]}"; do
+        if valid_package_name "$pkg"; then
+            clean+=("$pkg")
+        else
+            warn "invalid package name ignored: $pkg"
+        fi
+    done
+    pkgs=("${clean[@]}")
     if printf '%s\n' "${pkgs[@]}" | grep -Fxq -- yay \
         && ! pacman -Qq yay >/dev/null 2>&1; then
         run_logged sudo pacman -S --needed --noconfirm yay \
@@ -483,7 +442,7 @@ install_pacman_packages() {
     fi
     for pkg in "${pkgs[@]}"; do
         if pacman -Qq "$pkg" >/dev/null 2>&1; then
-            log "$pkg já instalado"
+            log "$pkg already installed"
             continue
         fi
         run_logged sudo pacman -S --needed --noconfirm "$pkg" \
@@ -495,12 +454,21 @@ install_aur_packages() {
     local list="$1"
     local -a pkgs=()
     mapfile -t pkgs < <(read_list "$list")
-    (( ${#pkgs[@]} )) || return 0
-    command -v yay >/dev/null 2>&1 || die "$msg_yay_missing"
+    local -a clean=()
     local pkg
     for pkg in "${pkgs[@]}"; do
+        if valid_package_name "$pkg"; then
+            clean+=("$pkg")
+        else
+            warn "invalid package name ignored: $pkg"
+        fi
+    done
+    pkgs=("${clean[@]}")
+    (( ${#pkgs[@]} )) || return 0
+    command -v yay >/dev/null 2>&1 || die "$msg_yay_missing"
+    for pkg in "${pkgs[@]}"; do
         if pacman -Qq "$pkg" >/dev/null 2>&1; then
-            log "$pkg já instalado"
+            log "$pkg already installed"
             continue
         fi
         run_logged yay -S --needed --noconfirm "$pkg" || return 1
@@ -565,7 +533,10 @@ merge_chrome_flags() {
 }
 
 copy_desktop() {
-    local src dest
+    local src dest pictures_dir
+    pictures_dir="$(xdg-user-dir PICTURES 2>/dev/null || printf '%s/Pictures' "$HOME")"
+    mkdir -p "$pictures_dir/Wallpapers" "$pictures_dir/Screenshots" 2>/dev/null || true
+
     for src in "$dotfiles"/config/applications/*.desktop; do
         [[ -f "$src" ]] || continue
         install_file "$src" "$HOME/.local/share/applications/$(basename "$src")"
@@ -575,24 +546,25 @@ copy_desktop() {
 
     for src in "$dotfiles"/assets/wallpapers/*; do
         [[ -f "$src" ]] || continue
-        dest="$(xdg-user-dir PICTURES 2>/dev/null || printf '%s/Pictures' "$HOME")/Wallpapers/$(basename "$src")"
+        dest="$pictures_dir/Wallpapers/$(basename "$src")"
         if [[ -e "$dest" ]]; then
             log "wallpaper preserved: $dest"
         else
             install_file "$src" "$dest"
         fi
     done
+
+    if [[ -f "$dotfiles/config/fastfetch/config.jsonc" ]]; then
+        install_file "$dotfiles/config/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
+    fi
+    if [[ -f "$dotfiles/assets/images/tomoe-fastfetch.png" ]]; then
+        install_file "$dotfiles/assets/images/tomoe-fastfetch.png" "$HOME/.config/fastfetch/tomoe-fastfetch.png"
+    fi
 }
 
 sed_escape() {
     printf '%s' "$1" | sed -e 's/[\\&/]/\\&/g'
 }
-
-encode_uri_path() {
-    command -v jq >/dev/null 2>&1 || { printf '%s' "$1"; return 0; }
-    jq -nr --arg p "$1" '($p | split("/") | map(@uri) | join("/"))'
-}
-
 detect_keyboard_layout() {
     local layout="" variant=""
     if command -v localectl >/dev/null 2>&1; then
@@ -624,6 +596,11 @@ configure_keyboard_layout() {
     sed -i -E "s/^[[:space:]]*layout[[:space:]]*=.*/layout = \"$layout\"/" -- "$target"
     sed -i -E "s/^[[:space:]]*variant[[:space:]]*=.*/variant = \"$variant\"/" -- "$target"
     log "keyboard layout configured: $layout / $variant"
+}
+
+encode_uri_path() {
+    command -v jq >/dev/null 2>&1 || { printf '%s' "$1"; return 0; }
+    jq -nr --arg p "$1" '($p | split("/") | map(@uri) | join("/"))'
 }
 
 write_nautilus_bookmarks() {
@@ -674,10 +651,12 @@ configure_desktop_defaults() {
         run_logged gio mime inode/directory org.gnome.Nautilus.desktop \
             || warn "could not set Nautilus as default file manager"
     fi
+    write_nautilus_bookmarks
 }
 
 configure_noctalia() {
-    local pictures_dir wallpaper_src wallpaper_dest
+    local pictures_dir wallpaper_src wallpaper_dest avatar_src avatar_dest
+    local noctalia_config noctalia_state sed_avatar
     pictures_dir="$(xdg-user-dir PICTURES 2>/dev/null || printf '%s/Pictures' "$HOME")"
     wallpaper_src="$dotfiles/assets/wallpapers/chie-satonaka-monochrome.png"
     if [[ ! -f "$wallpaper_src" ]]; then
@@ -696,29 +675,35 @@ configure_noctalia() {
         install_file "$wallpaper_src" "$wallpaper_dest"
     fi
 
-    local noctalia_config="$HOME/.config/noctalia/settings.toml"
-    backup_path "$noctalia_config"
-    if [[ "$dry_run" == true ]]; then
-        log "[dry-run] install noctalia config -> $noctalia_config (wallpaper=$wallpaper_dest)"
-        printf '\r\033[2K  %s(dry-run)%s noctalia config -> %s\n' "$C_DIM" "$C_RESET" "$noctalia_config"
+    avatar_src="$dotfiles/assets/images/sources/chie-satonaka-chibi.png"
+    if [[ -f "$avatar_src" ]]; then
+        avatar_dest="$HOME/.local/share/tomoe/avatar.png"
+        install_file "$avatar_src" "$avatar_dest" 644
     else
-        mkdir -p "$(dirname "$noctalia_config")"
-        sed "s#__WALLPAPER__#$(sed_escape "$wallpaper_dest")#g" "$dotfiles/config/noctalia/settings.toml" >"$noctalia_config" \
-            || die "$msg_install_failed $noctalia_config"
-        log "installed: $noctalia_config"
+        avatar_dest=""
+    fi
+
+    noctalia_config="$HOME/.config/noctalia/settings.toml"
+    noctalia_state="$HOME/.local/state/noctalia/settings.toml"
+    backup_path "$noctalia_config"
+    backup_path "$noctalia_state"
+
+    if [[ "$dry_run" == true ]]; then
+        log "[dry-run] install noctalia config -> $noctalia_config / $noctalia_state (wallpaper=$wallpaper_dest)"
+        printf '\r\033[2K  %s(dry-run)%s noctalia config -> %s\n' "$C_DIM" "$C_RESET" "$noctalia_state"
+    else
+        mkdir -p "$(dirname "$noctalia_config")" "$(dirname "$noctalia_state")"
+        if [[ -n "$avatar_dest" ]]; then
+            sed_avatar="$(sed_escape "$avatar_dest")"
+        else
+            sed_avatar=""
+        fi
+        sed -e "s#__WALLPAPER__#$(sed_escape "$wallpaper_dest")#g"             -e "s#__AVATAR__#$sed_avatar#g"             "$dotfiles/config/noctalia/settings.toml" >"$noctalia_state"             || die "$msg_install_failed $noctalia_state"
+        cp -- "$noctalia_state" "$noctalia_config"
+        log "installed: $noctalia_state"
     fi
 
     configure_desktop_defaults
-    write_nautilus_bookmarks
-
-    if command -v noctalia >/dev/null 2>&1; then
-        run_logged noctalia msg config-set shell.polkit_agent true || warn "noctalia: could not enable polkit agent"
-        run_logged noctalia msg color-scheme-set wallpaper m3-monochrome || warn "noctalia: could not set color scheme"
-        run_logged noctalia msg theme-mode-set dark || warn "noctalia: could not set theme mode"
-        run_logged noctalia msg wallpaper-set "$wallpaper_dest" || warn "noctalia: could not set wallpaper"
-        run_logged noctalia msg greeter-sync || warn "noctalia: could not sync greeter"
-        run_logged noctalia msg config-reload || warn "noctalia: could not reload config"
-    fi
 }
 
 configure_greetd() {
@@ -746,8 +731,17 @@ validate_installed_config() {
     validate_config "$target"
     if command -v noctalia >/dev/null 2>&1; then
         local noctalia_target="$HOME/.config/noctalia/settings.toml"
+        local noctalia_state_target="$HOME/.local/state/noctalia/settings.toml"
         if [[ "$dry_run" == true ]]; then
             noctalia_target="$dotfiles/config/noctalia/settings.toml"
+            noctalia_state_target="$dotfiles/config/noctalia/settings.toml"
+        fi
+        if [[ -f "$noctalia_state_target" ]]; then
+            if [[ "$dry_run" == true ]]; then
+                noctalia config validate "$noctalia_state_target" || die "$msg_invalid_config"
+            else
+                run_logged noctalia config validate "$noctalia_state_target" || die "$msg_invalid_config"
+            fi
         fi
         if [[ -f "$noctalia_target" ]]; then
             if [[ "$dry_run" == true ]]; then
@@ -815,7 +809,7 @@ ask_reboot() {
 }
 
 # ---------------------------------------------------------------------------
-# Comando principal
+# Main command
 # ---------------------------------------------------------------------------
 install_command() {
     while [[ $# -gt 0 ]]; do
@@ -883,80 +877,250 @@ install_command() {
     step_done
 
     step_begin "$msg_step_restart"
-    restart_greetd
+    deferred_refresh all >/dev/null 2>&1 || true
     step_done
 
     finish
-    ask_reboot
+    if [[ "$dry_run" == true ]]; then
+        printf '\n%sDry run complete. Greetd was not restarted.%s\n' "$C_DIM" "$C_RESET"
+    else
+        printf '\n%sGreetd restarted automatically.%s\n' "$C_DIM" "$C_RESET"
+    fi
 }
 
-ask_refresh() {
-    if [[ "$assume_yes" == true ]]; then
-        return 0
+
+deferred_refresh() {
+    local module
+    local need_noctalia=false
+    local need_greetd=false
+    for module in "$@"; do
+        case "$module" in
+            noctalia) need_noctalia=true ;;
+            greetd) need_greetd=true ;;
+            all) need_noctalia=true; need_greetd=true ;;
+        esac
+    done
+
+    if [[ "$need_noctalia" == true ]] && command -v noctalia >/dev/null 2>&1; then
+        run_logged noctalia msg plugins enable noctalia/umbriel-companion || warn "noctalia: could not enable Umbriel Companion"
+        run_logged noctalia msg greeter-sync || warn "noctalia: could not sync greeter"
+        run_logged noctalia msg config-reload || warn "noctalia: could not reload config"
     fi
-    if [[ ! -t 0 ]]; then
-        die "$msg_need_tty"
+    if [[ "$need_greetd" == true ]]; then
+        restart_greetd
     fi
-    local answer=""
-    read -r -p "$msg_refresh_confirm" answer || answer=""
-    case "$answer" in
-        s|S|sim|SIM|Sim|y|Y|yes|YES|Yes) return 0 ;;
-        *) printf '%s\n' "$msg_cancelled"; exit 0 ;;
-    esac
 }
 
-refresh_command() {
+
+hidden_apps_command() {
+    local mode="hide"
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            --dry-run) dry_run=true ;;
-            --yes|-y) assume_yes=true ;;
-            -h|--help) usage; return 0 ;;
+            --list) mode="list" ;;
+            --show) mode="show" ;;
+            --hide) mode="hide" ;;
+            -h|--help)
+                cat <<'USAGE'
+Usage:
+  ./tomoe hidden-apps [--list|--show|--hide]
+
+  --list  List hidden apps and their state.
+  --show  Show hidden apps again.
+  --hide  Hide apps (default).
+USAGE
+                return 0
+                ;;
             *) usage >&2; exit 2 ;;
         esac
         shift
     done
 
-    TOTAL_STEPS=6
-    STEP=0
+    local target_dir="$HOME/.local/share/applications"
+    mkdir -p "$target_dir"
+    local -a entries=(lstopo.desktop qv4l2.desktop qvidcap.desktop limine-snapper-restore.desktop)
+    local entry src dest label
+
+    desktop_name() {
+        [[ -f "$1" ]] || return 0
+        sed -n 's/^Name=//p' "$1" | head -n 1
+    }
+
+    if [[ "$mode" == "list" ]]; then
+        printf 'Hidden apps:\n'
+        for entry in "${entries[@]}"; do
+            dest="$target_dir/$entry"
+            if [[ ! -f "$dest" ]]; then
+                printf '  [missing] %s\n' "$entry"
+                continue
+            fi
+            label="$(desktop_name "$dest")"
+            if grep -Fxq 'NoDisplay=true' -- "$dest"; then
+                printf '  [hidden]  %s - %s\n' "$entry" "${label:-$entry}"
+            else
+                printf '  [visible] %s - %s\n' "$entry" "${label:-$entry}"
+            fi
+        done
+        return 0
+    fi
+
+    for entry in "${entries[@]}"; do
+        dest="$target_dir/$entry"
+        src=""
+
+        if [[ -f "$dotfiles/config/applications/$entry" ]]; then
+            src="$dotfiles/config/applications/$entry"
+        elif [[ -f "/usr/share/applications/$entry" ]]; then
+            src="/usr/share/applications/$entry"
+        else
+            warn "$msg_missing $entry"
+            continue
+        fi
+
+        if [[ ! -f "$dest" ]]; then
+            install_file "$src" "$dest" 644
+        fi
+
+        label="$(desktop_name "$dest")"
+        if [[ "$mode" == "hide" ]]; then
+            if grep -Eq '^NoDisplay=' -- "$dest"; then
+                sed -i 's/^NoDisplay=.*/NoDisplay=true/' -- "$dest"
+            else
+                printf 'NoDisplay=true\n' >> "$dest"
+            fi
+            printf '  hidden: %s - %s\n' "$entry" "${label:-$entry}"
+        else
+            if grep -Eq '^NoDisplay=' -- "$dest"; then
+                sed -i '/^NoDisplay=/d' -- "$dest"
+            fi
+            printf '  shown: %s - %s\n' "$entry" "${label:-$entry}"
+        fi
+        log "hidden app updated: $dest ($mode)"
+    done
+    printf 'Done: %s\n' "$mode"
+}
+
+
+apply_update_modules() {
+    local module
+    for module in "$@"; do
+        log "[tomoe update] applying: $module"
+        case "$module" in
+            umbriel)
+                step_begin "Updating Umbriel"
+                copy_umbriel
+                configure_keyboard_layout "$HOME/.config/umbriel/input.toml"
+                step_done
+                ;;
+            monitors)
+                step_begin "Updating monitors"
+                if [[ -f "$dotfiles/config/umbriel/outputs.toml" ]]; then
+                    install_file "$dotfiles/config/umbriel/outputs.toml" "$HOME/.config/umbriel/outputs.toml"
+                fi
+                step_done
+                ;;
+            fastfetch)
+                step_begin "Updating Fastfetch"
+                if [[ -f "$dotfiles/config/fastfetch/config.jsonc" ]]; then
+                    install_file "$dotfiles/config/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
+                fi
+                if [[ -f "$dotfiles/assets/images/tomoe-fastfetch.png" ]]; then
+                    install_file "$dotfiles/assets/images/tomoe-fastfetch.png" "$HOME/.config/fastfetch/tomoe-fastfetch.png"
+                fi
+                step_done
+                ;;
+            chrome)
+                step_begin "Updating Chrome"
+                merge_chrome_flags
+                step_done
+                ;;
+            noctalia)
+                step_begin "Updating Noctalia"
+                configure_noctalia
+                step_done
+                ;;
+            greetd)
+                step_begin "Updating greetd"
+                configure_greetd
+                step_done
+                ;;
+            *)
+                warn "unknown module: $module"
+                ;;
+        esac
+    done
+}
+
+update_command() {
+    local -a requested=()
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --dry-run) dry_run=true ;;
+            --yes|-y) assume_yes=true ;;
+            --umbriel) requested+=("umbriel") ;;
+            --monitors) requested+=("monitors") ;;
+            --fastfetch) requested+=("fastfetch") ;;
+            --chrome) requested+=("chrome") ;;
+            --noctalia) requested+=("noctalia") ;;
+            --greetd) requested+=("greetd") ;;
+            --all) requested+=("umbriel" "monitors" "fastfetch" "chrome" "noctalia" "greetd") ;;
+            -h|--help)
+                printf '%s\n' "Uso:"
+                printf '%s\n' "  ./tomoe update --umbriel"
+                printf '%s\n' "  ./tomoe update --noctalia"
+                printf '%s\n' "  ./tomoe update --fastfetch"
+                printf '%s\n' "  ./tomoe update --chrome"
+                printf '%s\n' "  ./tomoe update --greetd"
+                printf '%s\n' "  ./tomoe update --monitors"
+                printf '%s\n' "  ./tomoe update --all"
+                return 0
+                ;;
+            *) usage >&2; exit 2 ;;
+        esac
+        shift
+    done
+
+    if (( ${#requested[@]} == 0 )); then
+        printf '%s\n' "Uso: ./tomoe update --umbriel|--noctalia|--fastfetch|--chrome|--greetd|--monitors|--all"
+        return 0
+    fi
+
     setup_logging
     show_header
     printf '\n'
 
-    if [[ "$dry_run" == false ]]; then
-        ask_refresh
-    else
-        printf '%s\n' "$msg_dry_run"
-    fi
-
     start_sudo
 
-    step_begin "$msg_step_refresh_validate"
+    TOTAL_STEPS=5
+    STEP=0
+    step_begin "Checking selected modules"
     preflight
-    if command -v noctalia >/dev/null 2>&1 && [[ -f "$dotfiles/config/noctalia/settings.toml" ]]; then
-        noctalia config validate "$dotfiles/config/noctalia/settings.toml" || die "$msg_invalid_config"
-    fi
     step_done
 
-    step_begin "$msg_step_refresh_files"
-    copy_umbriel
-    configure_keyboard_layout "$HOME/.config/umbriel/input.toml"
-    copy_desktop
-    configure_noctalia
+    step_begin "Applying requested modules"
+    apply_update_modules "${requested[@]}"
     step_done
 
-    step_begin "$msg_step_refresh_greetd"
-    configure_greetd
-    step_done
-
-    step_begin "$msg_step_validate"
+    step_begin "Validating selected modules"
     validate_installed_config
     step_done
 
-    step_begin "$msg_step_restart"
-    restart_greetd
+    step_begin "Finishing selected modules"
+    deferred_refresh "${requested[@]}"
     step_done
 
-    finish
+    # Contextual completion message; not "whole Tomoe updated".
+    if (( ${#requested[@]} == 1 )); then
+        case "${requested[0]}" in
+            umbriel) printf '\n%sUmbriel update complete.%s\n' "$C_DIM" "$C_RESET" ;;
+            noctalia) printf '\n%sNoctalia update complete.%s\n' "$C_DIM" "$C_RESET" ;;
+            fastfetch) printf '\n%sFastfetch update complete.%s\n' "$C_DIM" "$C_RESET" ;;
+            chrome) printf '\n%sChrome flags update complete.%s\n' "$C_DIM" "$C_RESET" ;;
+            greetd) printf '\n%sgreetd update complete.%s\n' "$C_DIM" "$C_RESET" ;;
+            monitors) printf '\n%sMonitors update complete.%s\n' "$C_DIM" "$C_RESET" ;;
+        esac
+    else
+        printf '\n%sUpdate complete.%s\n' "$C_DIM" "$C_RESET"
+    fi
 }
 
 command_name="${1:-}"
@@ -966,7 +1130,8 @@ fi
 
 case "$command_name" in
     install) install_command "$@" ;;
-    refresh) refresh_command "$@" ;;
+    update) update_command "$@" ;;
+    hidden-apps) hidden_apps_command "$@" ;;
     -h|--help|help|'') usage ;;
     *) usage >&2; exit 2 ;;
 esac
