@@ -3,9 +3,8 @@
 </p>
 <h3 align="center">T O M O E &ensp;巴</h3>
 
-<p align="center"><strong>CachyOS</strong></p>
-<p align="center"><em>Umbriel + Noctalia</em></p>
 <p align="center"><em>Monochrome Chie Satonaka — Persona 4</em></p>
+<p align="center">CachyOS dotfiles with Umbriel and Noctalia.</p>
 
 # How to install
 
