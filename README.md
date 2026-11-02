@@ -16,7 +16,19 @@ cd tomoe
 
 Installs Umbriel + Noctalia (greeter); other setup files are in `dotfiles/`. Configures greetd; backups and logs in `~/.local/state/tomoe/`.
 
-## Main keybinds
+Commands:
+```sh
+# Install or reinstall Tomoe
+./tomoe install [--dry-run] [--yes] [--reboot]
+
+# Update all modules or only selected ones
+./tomoe update [--all|--umbriel|--noctalia|--fastfetch|--chrome|--greetd|--monitors]
+
+# List, show, or hide helper desktop apps
+./tomoe hidden-apps [--list|--show|--hide]
+```
+
+## Keybinds
 
 | Keybind | Action |
 |---|---|
@@ -29,14 +41,6 @@ Installs Umbriel + Noctalia (greeter); other setup files are in `dotfiles/`. Con
 | `Mod+Shift+S` | Screenshot |
 | `Mod+Tab` | Overview |
 | `Mod+F` | Maximize |
-
-## Commands
-
-```sh
-./tomoe install [--dry-run] [--yes] [--reboot]
-./tomoe update [--all|--umbriel|--noctalia|--fastfetch|--chrome|--greetd|--monitors]
-./tomoe hidden-apps [--list|--show|--hide]
-```
 
 ## Screenshots
 
