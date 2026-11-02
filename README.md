@@ -3,9 +3,11 @@
 </p>
 <h3 align="center">T O M O E &ensp;巴</h3>
 
+<p align="center"><strong>CachyOS</strong></p>
 <p align="center"><em>Umbriel + Noctalia</em></p>
+<p align="center"><em>Monochrome Chie Satonaka — Persona 4</em></p>
 
-# Como instalar
+# How to install
 
 ```sh
 git clone https://github.com/alex-s1508/tomoe.git
@@ -13,73 +15,32 @@ cd tomoe
 ./tomoe install
 ```
 
-O instalador imprime o cabeçalho, pede a senha do `sudo` uma única vez e
-pergunta no idioma do PC se deve instalar a T O M O E 巴 dotfile. Depois
-roda com barra de progresso e log inteligente, instala pacotes, copia as
-configurações, valida o Umbriel e o Noctalia, configura o greetd e oferece
-reiniciar o computador.
+Installs Umbriel + Noctalia (greeter); other setup files are in `dotfiles/`. Configures greetd; backups and logs in `~/.local/state/tomoe/`.
 
-# O que é instalado
+## Main keybinds
 
-- Umbriel, Noctalia, Kitty, Noctalia Greeter (com greetd) e Nautilus.
-- Google Chrome e Visual Studio Code pela AUR, usando `yay`.
-- Configuração modular do Umbriel em `~/.config/umbriel/`.
-- Configuração do Noctalia (paleta M3 monocromática, polkit) em
-  `~/.config/noctalia/`, com papel de parede em `XDG_PICTURES_DIR/Wallpapers`.
-- Configuração do greetd em `/etc/greetd/config.toml`.
-- Flags do Chrome, atalhos ocultos e bookmarks do Nautilus.
-
-# Estrutura
-
-```
-dotfiles/
-  config/       configurações instaladas
-  packages/     listas de pacotes
-  assets/       ASCII, imagens e wallpapers
-```
-
-# Personalização
-
-Os pacotes ficam em `dotfiles/packages/`:
-
-| Arquivo | Função |
-|---|---|
-| `repo.txt` | Pacotes dos repositórios oficiais. |
-| `aur.txt` | Pacotes da AUR instalados com `yay`. |
-| `remove.txt` | Pacotes do CachyOS removidos quando seguros. |
-
-As configurações do Umbriel ficam em `dotfiles/config/umbriel/`, um arquivo por
-tópico. O `config.toml` apenas inclui os demais; `apps.toml` concentra os
-atalhos de aplicativos padrão. Valide suas mudanças com:
-
-```sh
-umbriel config validate
-noctalia config validate
-```
-
-# Atalhos principais
-
-| Atalho | Ação |
+| Keybind | Action |
 |---|---|
 | `Mod+Return` | Terminal (kitty) |
-| `Mod+B` | Navegador padrão |
-| `Mod+E` | Gerenciador de arquivos (Nautilus) |
-| `Mod+Space` | Launcher do Noctalia |
-| `Mod+S` | Scratchpad |
-| `Mod+Shift+S` | Próximo foco do scratchpad |
+| `Mod+B` | Browser |
+| `Mod+E` | Files (Nautilus) |
+| `Mod+N` | VSCode |
+| `Mod+Space` | Launcher |
+| `Mod+S` / `Mod+Ctrl+S` | Scratchpad / send window |
+| `Mod+Shift+S` | Screenshot |
 | `Mod+Tab` | Overview |
-| `Alt+Tab` | Alternador de janelas estilo Windows |
-| `Mod+F` | Maximizar para as bordas |
-| `Mod+Shift+F` | Tela cheia |
+| `Mod+F` | Maximize |
 
-# Comandos
+## Commands
 
 ```sh
-./tomoe install              # instala e configura
-./tomoe install --dry-run    # mostra o que seria feito
-./tomoe install --yes        # instala sem confirmação
-./tomoe install --reboot     # reinicia ao terminar
+./tomoe install [--dry-run] [--yes] [--reboot]
+./tomoe update [--all|--umbriel|--noctalia|--fastfetch|--chrome|--greetd|--monitors]
+./tomoe hidden-apps [--list|--show|--hide]
 ```
 
-Backups ficam em `~/.local/state/tomoe/backups/`. O log da instalação fica em
-`~/.local/state/tomoe/`.
+## Screenshots
+
+<p align="center">
+  <img src="dotfiles/assets/images/tomoe-screenshot.png" width="760" alt="Tomoe desktop">
+</p>
