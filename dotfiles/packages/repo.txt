@@ -5,20 +5,31 @@
 #       ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
 #
 #  ╔═════════════════════════════════════════════════════════════════════╗
-#  ║  ✦ Pacotes oficiais                                                 ║
+#  ║  ✦ Official packages                                                 ║
 #  ╚═════════════════════════════════════════════════════════════════════╝
 
-# Instalados com `pacman -S --needed` a partir dos repositórios do CachyOS.
+# Installed with `pacman -S --needed` from the CachyOS repositories.
 
 #  ╭─ ✦ Compositor ───────────────────────────────────────────────────────
 umbriel
 noctalia
 
-#  ╭─ ✦ Terminal e arquivos ──────────────────────────────────────────────
+#  ╭─ ✦ Terminal, files and editor ───────────────────────────────────────
 kitty
 nautilus
 
-#  ╭─ ✦ Sessão (greetd) ──────────────────────────────────────────────────
+#  ╭─ ✦ Optional VSCode dependencies ─────────────────────────────────
+glib2
+libdbusmenu-glib
+bubblewrap
+
+#  ╭─ ✦ Fastfetch ─────────────────────────────────────────────────────────
+fastfetch
+
+#  ╭─ ✦ Noctalia / DDC ───────────────────────────────────────────────────
+ddcutil
+
+#  ╭─ ✦ Session (greetd) ──────────────────────────────────────────────────
 noctalia-greeter
 
 #  ╭─ ✦ AUR ──────────────────────────────────────────────────────────────
