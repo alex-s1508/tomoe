@@ -5,13 +5,14 @@
 #       ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
 #
 #  ╔═════════════════════════════════════════════════════════════════════╗
-#  ║  ✦ Configuração principal                                           ║
+#  ║  ✦ Main configuration                                           ║
 #  ╚═════════════════════════════════════════════════════════════════════╝
 
-#  ╭─ ✦ Módulos ──────────────────────────────────────────────────────────
+#  ╭─ ✦ Modules ──────────────────────────────────────────────────────────
 [include]
 files = [
   "general.toml",
+  "autostart.toml",
   "events.toml",
   "screencast.toml",
   "outputs.toml",
@@ -21,7 +22,6 @@ files = [
   "effects.toml",
   "input.toml",
   "keybinds.toml",
-  "apps.toml",
   "layout.toml",
   "workspaces.toml",
   "scratchpads.toml",
@@ -30,7 +30,7 @@ files = [
   "noctalia.toml",
 ]
 
-#  ╭─ ✦ Opcionais ────────────────────────────────────────────────────────
-# Includes opcionais, carregados apenas se existirem.
+#  ╭─ ✦ Optional ────────────────────────────────────────────────────────
+# Optional includes, loaded only if they exist.
 [include.optional]
 files = []

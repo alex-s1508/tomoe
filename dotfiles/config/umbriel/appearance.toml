@@ -5,39 +5,39 @@
 #       ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
 #
 #  ╔═════════════════════════════════════════════════════════════════════╗
-#  ║  ✦ Aparência                                                        ║
+#  ║  ✦ Appearance                                                        ║
 #  ╚═════════════════════════════════════════════════════════════════════╝
 
-#  ╭─ ✦ Geral ────────────────────────────────────────────────────────────
+#  ╭─ ✦ General ────────────────────────────────────────────────────────────
 [appearance]
-corner_radius = 10
-border_width = 2
+corner_radius = 8
+border_width = 1
+# button_size = 28
 
-#  ╭─ ✦ Blur ─────────────────────────────────────────────────────────────
 [appearance.blur]
 radius = 3
 
-#  ╭─ ✦ Sombra ───────────────────────────────────────────────────────────
+#  ╭─ ✦ Shadow ───────────────────────────────────────────────────────────
 [appearance.shadow]
 enabled = true
 
-#  ╭─ ✦ Barra de título ──────────────────────────────────────────────────
-# Barra de título opcional, com arraste e redimensionamento sem modificador.
-# mode: "on" segue a preferência do cliente, "negotiated" oculta em janelas
-# Wayland sem negociação, "forced" sempre mostra e "off" oculta.
+#  ╭─ ✦ Title bar ──────────────────────────────────────────────────
+# Optional title bar, with drag and resize without a modifier.
+# mode: "on" follows the client preference, "negotiated" hides it in Wayland
+# windows without negotiation, "forced" always shows it and "off" hides it.
 [appearance.title_bar]
 mode = "off"
 height = 28
 font = "sans 10"
 button_position = "right"
 buttons = ["minimize", "maximize", "close"]
-# -1 segue corner_radius da janela; 0 deixa os botões quadrados.
+# -1 follows the window corner_radius; 0 makes the buttons square.
 # button_corner_radius = -1
-# "always", "hover" (ao passar ou pressionar) ou "never".
+# "always", "hover" (on hover or press) or "never".
 button_glyph = "hover"
 button_background = true
 
-#  ╭─ ✦ Barra de abas ────────────────────────────────────────────────────
+#  ╭─ ✦ Tab bar ────────────────────────────────────────────────────
 [appearance.tab_bar]
 position = "top"
 height = 24
@@ -45,8 +45,8 @@ hide_when_single = false
 max_tabs = 6
 overflow = "scroll"
 title_align = "center"
-# style = "titles" # "indicator" desenha slots finos sem títulos.
-# gap = -1 # Espaço entre barra e janela; -1 segue layout.gap.
+# style = "titles" # "indicator" draws thin slots without titles.
+# gap = -1 # Space between bar and window; -1 follows layout.gap.
 # font = "sans 10"
-# visible = true # false oculta as barras; as abas continuam funcionando.
-# overflow = "scroll" # "shrink" ajusta todas as abas.
+# visible = true # false hides the bars; tabs keep working.
+# overflow = "scroll" # "shrink" resizes all tabs.

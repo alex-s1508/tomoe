@@ -8,12 +8,7 @@
 #  ║  ✦ Noctalia                                                         ║
 #  ╚═════════════════════════════════════════════════════════════════════╝
 
-#  ╭─ ✦ Autostart ────────────────────────────────────────────────────────
-[general]
-# Inicia o shell Noctalia junto com o compositor.
-autostart = ["noctalia"]
-
-#  ╭─ ✦ Regras de janela ─────────────────────────────────────────────────
+#  ╭─ ✦ Window rule ─────────────────────────────────────────────────
 [[window_rule]]
 match.app_id = "^dev.noctalia.Noctalia$"
 default_floating = true
@@ -34,10 +29,9 @@ default_pinned = true
 # match.app_id = "^dev.noctalia.Noctalia$"
 # default_workspace = 1
 
-#  ╭─ ✦ Regras de camada ─────────────────────────────────────────────────
-# Painéis, dock, notificações e OSDs abrem sobre janelas e desfocam o conteúdo
-# ao vivo atrás deles. A barra e os widgets do desktop ficam no wallpaper e
-# mantêm o blur em cache.
+#  ╭─ ✦ Layer rules ─────────────────────────────────────────────────
+# Panels, dock, notifications, and OSDs open over windows and blur content behind them.
+# The bar and desktop widgets stay on the wallpaper and keep cached blur.
 [[layer_rule]]
 match.namespace = "^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd|desktop-widget-[^\"]*)$"
 blur = true

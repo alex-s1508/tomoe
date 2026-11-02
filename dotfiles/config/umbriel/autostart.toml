@@ -5,14 +5,9 @@
 #       ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
 #
 #  ╔═════════════════════════════════════════════════════════════════════╗
-#  ║  ✦ Aplicativos                                                      ║
+#  ║  ✦ Autostart                                                        ║
 #  ╚═════════════════════════════════════════════════════════════════════╝
 
-#  ╭─ ✦ Variáveis ────────────────────────────────────────────────────────
-# Valores de referência. O Umbriel não interpola $variável em spawn: ao mudar
-# um aplicativo padrão, atualize o atalho correspondente em keybinds.toml.
-[environment]
-terminal = "kitty"
-browser = "google-chrome"
-file_manager = "nautilus"
-launcher = "noctalia msg panel-toggle launcher"
+[general]
+# Starts the Noctalia shell along with the compositor.
+autostart = ["noctalia"]

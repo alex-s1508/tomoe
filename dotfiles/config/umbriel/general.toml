@@ -5,27 +5,26 @@
 #       ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
 #
 #  ╔═════════════════════════════════════════════════════════════════════╗
-#  ║  ✦ Geral                                                            ║
+#  ║  ✦ General                                                            ║
 #  ╚═════════════════════════════════════════════════════════════════════╝
 
-#  ╭─ ✦ Sessão ───────────────────────────────────────────────────────────
+#  ╭─ ✦ Session ───────────────────────────────────────────────────────────
 [general]
-# O autostart do Noctalia fica em noctalia.toml.
 # autostart = ["noctalia"]
 
 #  ╭─ ✦ XWayland ─────────────────────────────────────────────────────────
 xwayland = true
-# Apps e jogos X11 nítidos em saídas com escala.
+# X11 apps and games are sharp on scaled outputs.
 xwayland_native_resolution = true
-# O Umbriel anuncia escala e cursor X11 via XSETTINGS.
+# Umbriel announces X11 scale and cursor via XSETTINGS.
 # xwayland_xsettings = false
-# Monitor primário dos jogos X11, usando um nome de `umbriel outputs`.
+# Primary output for X11 games, using a name from `umbriel outputs`.
 # xwayland_primary_output = "DP-1"
 
-#  ╭─ ✦ Janelas ──────────────────────────────────────────────────────────
-# Saídas NVIDIA sem sincronização explícita esperam a GPU por padrão.
+#  ╭─ ✦ Windows ──────────────────────────────────────────────────────────
+# Unsynchronized NVIDIA outputs wait for the GPU by default.
 # nvidia_sync_workaround = false
-# Diálogos modais acompanham e ficam presos à janela pai.
+# Modal dialogs follow and stay attached to their parent window.
 # attach_modal_dialogs = false
-# Foco automático ao ativar uma janela.
+# Automatically focus a window when it is activated.
 # focus_on_activate = false
