@@ -199,6 +199,7 @@ hide_inactive = true
 
 [widget.tray]
 capsule = true
+drawer = true
 
 [widget.volume]
 enabled = false
