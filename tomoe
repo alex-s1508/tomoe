@@ -231,7 +231,7 @@ step_done() {
 run_logged() {
     if [[ "$dry_run" == true ]]; then
         log "[dry-run] $*"
-        printf '\r\033[2K  %s(dry-run)%s %s\n' "$C_DIM" "$C_RESET" "$*"
+        printf '  %s(dry-run)%s %s\n' "$C_DIM" "$C_RESET" "$*"
         return 0
     fi
     log "\$ $*"
@@ -321,7 +321,7 @@ install_file() {
     local src="$1" dest="$2" mode="${3:-644}"
     if [[ "$dry_run" == true ]]; then
         log "[dry-run] install $src -> $dest"
-        printf '\r\033[2K  %s(dry-run)%s %s -> %s\n' "$C_DIM" "$C_RESET" "$src" "$dest"
+        printf '  %s(dry-run)%s %s -> %s\n' "$C_DIM" "$C_RESET" "$src" "$dest"
         return 0
     fi
     backup_path "$dest"
@@ -523,7 +523,7 @@ merge_chrome_flags() {
 
     if [[ "$dry_run" == true ]]; then
         log "[dry-run] merge chrome flags -> $dest: ${missing[*]}"
-        printf '\r\033[2K  %s(dry-run)%s chrome flags -> %s\n' "$C_DIM" "$C_RESET" "$dest"
+        printf '  %s(dry-run)%s chrome flags -> %s\n' "$C_DIM" "$C_RESET" "$dest"
         return 0
     fi
 
@@ -684,7 +684,7 @@ write_nautilus_bookmarks() {
 
     if [[ "$dry_run" == true ]]; then
         log "[dry-run] write nautilus bookmarks -> $dest"
-        printf '\r\033[2K  %s(dry-run)%s nautilus bookmarks -> %s\n' "$C_DIM" "$C_RESET" "$dest"
+        printf '  %s(dry-run)%s nautilus bookmarks -> %s\n' "$C_DIM" "$C_RESET" "$dest"
         for dir in "${dirs[@]}"; do
             uri="file://$(encode_uri_path "$dir")"
             label="$(basename "$dir")"
@@ -752,7 +752,7 @@ configure_noctalia() {
 
     if [[ "$dry_run" == true ]]; then
         log "[dry-run] install noctalia config -> $noctalia_config / $noctalia_state (wallpaper=$wallpaper_dest)"
-        printf '\r\033[2K  %s(dry-run)%s noctalia config -> %s\n' "$C_DIM" "$C_RESET" "$noctalia_state"
+        printf '  %s(dry-run)%s noctalia config -> %s\n' "$C_DIM" "$C_RESET" "$noctalia_state"
     else
         mkdir -p "$(dirname "$noctalia_config")" "$(dirname "$noctalia_state")"
         if [[ -n "$avatar_dest" ]]; then
@@ -805,7 +805,7 @@ validate_installed_config() {
                 run_logged noctalia config validate "$noctalia_state_target" || die "$msg_invalid_config"
             fi
         fi
-        if [[ -f "$noctalia_target" ]]; then
+        if [[ "$noctalia_target" != "$noctalia_state_target" && -f "$noctalia_target" ]]; then
             if [[ "$dry_run" == true ]]; then
                 noctalia config validate "$noctalia_target" || die "$msg_invalid_config"
             else
@@ -1168,9 +1168,7 @@ update_command() {
     preflight
     step_done
 
-    step_begin "Applying requested modules"
     apply_update_modules "${requested[@]}"
-    step_done
 
     step_begin "Validating selected modules"
     validate_installed_config
