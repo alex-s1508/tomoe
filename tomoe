@@ -21,7 +21,6 @@ sudo_keepalive_pid=""
 
 TOTAL_STEPS=11
 STEP=0
-BAR_WIDTH=34
 
 if [[ -t 1 ]]; then
     C_RESET=$'\033[0m'
@@ -139,7 +138,15 @@ setup_logging() {
         log_file="$(mktemp "${TMPDIR:-/tmp}/tomoe-dry-run.XXXXXX.log")"
         backup_dir=""
     else
+        if [[ -e "$state_dir" && ( ! -O "$state_dir" || ! -w "$state_dir" ) ]]; then
+            sudo chown -R "$(id -u):$(id -g)" "$state_dir" 2>/dev/null || true
+        fi
         mkdir -p "$state_dir"
+        if [[ -e "$state_dir/backups" && ( ! -O "$state_dir/backups" || ! -w "$state_dir/backups" ) ]]; then
+            sudo chown -R "$(id -u):$(id -g)" "$state_dir/backups" 2>/dev/null || true
+        fi
+        mkdir -p "$state_dir/backups"
+        chown "$(id -u):$(id -g)" "$state_dir/backups" 2>/dev/null || true
         log_file="$state_dir/install-$(date +%Y%m%d-%H%M%S).log"
         : >"$log_file"
         backup_dir="$state_dir/backups/$(date +%Y%m%d-%H%M%S)"
@@ -211,31 +218,14 @@ on_error() {
 }
 trap 'on_error $LINENO' ERR
 
-draw_bar() {
-    local mark="${1:-}"
-    local text="${2:-}"
-    [[ -n "$text" ]] && mark="$mark $text"
-    local pct=$((STEP * 100 / TOTAL_STEPS))
-    (( pct > 100 )) && pct=100
-    local filled=$((STEP * BAR_WIDTH / TOTAL_STEPS))
-    local empty=$((BAR_WIDTH - filled))
-    local bar="" emptybar=""
-    printf -v bar '%*s' "$filled" ''
-    printf -v emptybar '%*s' "$empty" ''
-    bar="${bar// /█}"
-    emptybar="${emptybar// /░}"
-    printf '\r\033[2K  %s[%s%s]%s %3d%% %s' "$C_DIM" "$bar" "$emptybar" "$C_RESET" "$pct" "$mark"
-}
-
 step_begin() {
     STEP=$((STEP + 1))
     CURRENT_STEP="$1"
-    printf '\r\033[2K  '
-    draw_bar "▸" "$CURRENT_STEP"
+    printf '  [%d/%d] %s ' "$STEP" "$TOTAL_STEPS" "$CURRENT_STEP"
 }
 
 step_done() {
-    draw_bar "✓" "$CURRENT_STEP"
+    printf '%s✓%s\n' "$C_GREEN" "$C_RESET"
 }
 
 run_logged() {
@@ -247,25 +237,37 @@ run_logged() {
     log "\$ $*"
     "$@" >>"$log_file" 2>&1 &
     local pid=$!
-    local spin='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
-    local i=0 idx
+    local rc=0
     while kill -0 "$pid" 2>/dev/null; do
-        idx=$((i % ${#spin}))
-        draw_bar "${spin:idx:1}" "$CURRENT_STEP"
-        i=$((i + 1))
         sleep 0.12
     done
-    local rc=0
     if wait "$pid"; then
         rc=0
     else
         rc=$?
     fi
     if [[ "$rc" -ne 0 ]]; then
-        draw_bar "✗" "$CURRENT_STEP"
         printf '\n%s  ✗ %s (exit %d); see %s%s\n' "$C_RED" "$*" "$rc" "$log_file" "$C_RESET" >&2
     fi
     return "$rc"
+}
+
+run_quiet() {
+    if [[ "$dry_run" == true ]]; then
+        log "[dry-run] $*"
+        printf '  (dry-run) %s\n' "$*"
+        return 0
+    fi
+    log "\$ $*"
+    if "$@" >>"$log_file" 2>&1; then
+        log "completed: $*"
+        return 0
+    else
+        local rc=$?
+        log "ERROR rc=$rc: $*"
+        printf '\n%s  ✗ %s (exit %d); see %s%s\n' "$C_RED" "$*" "$rc" "$log_file" "$C_RESET" >&2
+        return "$rc"
+    fi
 }
 
 read_list() {
@@ -290,6 +292,10 @@ backup_path() {
     if [[ -e "$dest" || -L "$dest" ]]; then
         return 0
     fi
+    local backup_base="$state_dir/backups"
+    if [[ -e "$backup_base" && ( ! -O "$backup_base" || ! -w "$backup_base" ) ]]; then
+        sudo chown -R "$(id -u):$(id -g)" "$backup_base" 2>/dev/null || true
+    fi
     mkdir -p "$(dirname "$dest")"
     cp -a -- "$src" "$dest" || die "$msg_backup_failed $src"
     log "backup: $src -> $dest"
@@ -307,7 +313,7 @@ backup_system_path() {
     fi
     sudo mkdir -p "$(dirname "$dest")"
     sudo cp -a -- "$src" "$dest" || die "$msg_backup_failed $src"
-    sudo chown -R "$(id -u):$(id -g)" "$backup_dir" 2>/dev/null || true
+    sudo chown -R "$(id -u):$(id -g)" "$state_dir/backups" 2>/dev/null || true
     log "backup: $src -> $dest"
 }
 
@@ -562,6 +568,61 @@ copy_desktop() {
     fi
 }
 
+copy_models() {
+    local dest_btop="$HOME/.config/btop/btop.conf"
+    local dest_gtk3="$HOME/.config/gtk-3.0/gtk.css"
+    local dest_gtk4="$HOME/.config/gtk-4.0/gtk.css"
+    local dest_kitty="$HOME/.config/kitty/kitty.conf"
+    local dest_qt5="$HOME/.config/qt5ct/qt5ct.conf"
+    local dest_qt6="$HOME/.config/qt6ct/qt6ct.conf"
+    local dest_environment="$HOME/.config/environment.d/90-qtct.conf"
+
+    [[ -f "$dotfiles/config/btop/btop.conf" ]] && install_file "$dotfiles/config/btop/btop.conf" "$dest_btop"
+    [[ -f "$dotfiles/config/gtk-3.0/gtk.css" ]] && install_file "$dotfiles/config/gtk-3.0/gtk.css" "$dest_gtk3"
+    [[ -f "$dotfiles/config/gtk-4.0/gtk.css" ]] && install_file "$dotfiles/config/gtk-4.0/gtk.css" "$dest_gtk4"
+    [[ -f "$dotfiles/config/kitty/kitty.conf" ]] && install_file "$dotfiles/config/kitty/kitty.conf" "$dest_kitty"
+    [[ -f "$dotfiles/config/qt5ct/qt5ct.conf" ]] && install_file "$dotfiles/config/qt5ct/qt5ct.conf" "$dest_qt5"
+    [[ -f "$dotfiles/config/qt6ct/qt6ct.conf" ]] && install_file "$dotfiles/config/qt6ct/qt6ct.conf" "$dest_qt6"
+    [[ -f "$dotfiles/config/environment.d/90-qtct.conf" ]] && install_file "$dotfiles/config/environment.d/90-qtct.conf" "$dest_environment"
+
+    if [[ "$dry_run" == false ]]; then
+        if [[ -f "$dest_qt5" ]]; then
+            sed -i "s#__HOME__#$HOME#g" "$dest_qt5" || warn "could not resolve HOME in $dest_qt5"
+        fi
+        if [[ -f "$dest_qt6" ]]; then
+            sed -i "s#__HOME__#$HOME#g" "$dest_qt6" || warn "could not resolve HOME in $dest_qt6"
+        fi
+    fi
+}
+
+configure_hid_apple() {
+    if [[ ! -d /sys/module/hid_apple ]]; then
+        log "hid_apple not present; skipping Apple keyboard fix"
+        return 0
+    fi
+
+    if [[ -w /sys/module/hid_apple/parameters/fnmode ]]; then
+        if [[ "$dry_run" == true ]]; then
+            log "[dry-run] set hid_apple fnmode -> 2"
+        else
+            echo 2 | sudo tee /sys/module/hid_apple/parameters/fnmode >/dev/null \
+                || warn "could not set hid_apple fnmode"
+        fi
+    fi
+
+    if [[ "$dry_run" == true ]]; then
+        log "[dry-run] persist hid_apple fnmode=2 -> /etc/modprobe.d/hid_apple.conf"
+        return 0
+    fi
+
+    echo 'options hid_apple fnmode=2' | sudo tee /etc/modprobe.d/hid_apple.conf >/dev/null \
+        || warn "could not persist hid_apple fnmode"
+
+    if command -v mkinitcpio >/dev/null 2>&1; then
+        run_logged sudo mkinitcpio -P || warn "could not regenerate initramfs"
+    fi
+}
+
 sed_escape() {
     printf '%s' "$1" | sed -e 's/[\\&/]/\\&/g'
 }
@@ -652,6 +713,7 @@ configure_desktop_defaults() {
             || warn "could not set Nautilus as default file manager"
     fi
     write_nautilus_bookmarks
+    configure_hid_apple
 }
 
 configure_noctalia() {
@@ -823,6 +885,8 @@ install_command() {
         shift
     done
 
+    start_sudo
+
     setup_logging
     show_header
     printf '\n'
@@ -832,8 +896,6 @@ install_command() {
     else
         printf '%s\n' "$msg_dry_run"
     fi
-
-    start_sudo
 
     step_begin "$msg_step_preflight"
     preflight
@@ -862,6 +924,7 @@ install_command() {
 
     step_begin "$msg_step_desktop"
     copy_desktop
+    copy_models
     step_done
 
     step_begin "$msg_step_noctalia"
@@ -902,9 +965,17 @@ deferred_refresh() {
     done
 
     if [[ "$need_noctalia" == true ]] && command -v noctalia >/dev/null 2>&1; then
-        run_logged noctalia msg plugins enable noctalia/umbriel-companion || warn "noctalia: could not enable Umbriel Companion"
-        run_logged noctalia msg greeter-sync || warn "noctalia: could not sync greeter"
-        run_logged noctalia msg config-reload || warn "noctalia: could not reload config"
+        run_quiet noctalia msg plugins enable noctalia/umbriel-companion || warn "noctalia: could not enable Umbriel Companion"
+        run_quiet noctalia msg templates-apply || warn "noctalia: could not apply theme templates"
+        run_quiet noctalia msg config-reload || warn "noctalia: could not reload config"
+        # greeter-sync is executed in the background by Noctalia. Retry once after
+        # a short delay if it reports that a previous sync is still running.
+        if ! run_quiet noctalia msg greeter-sync; then
+            sleep 2
+            if ! run_quiet noctalia msg greeter-sync; then
+                warn "noctalia: greeter sync still running or unavailable; it will finish in the background"
+            fi
+        fi
     fi
     if [[ "$need_greetd" == true ]]; then
         restart_greetd
@@ -1035,6 +1106,7 @@ apply_update_modules() {
                 ;;
             noctalia)
                 step_begin "Updating Noctalia"
+                copy_models
                 configure_noctalia
                 step_done
                 ;;
@@ -1064,7 +1136,7 @@ update_command() {
             --greetd) requested+=("greetd") ;;
             --all) requested+=("umbriel" "monitors" "fastfetch" "chrome" "noctalia" "greetd") ;;
             -h|--help)
-                printf '%s\n' "Uso:"
+                printf '%s\n' "Usage:"
                 printf '%s\n' "  ./tomoe update --umbriel"
                 printf '%s\n' "  ./tomoe update --noctalia"
                 printf '%s\n' "  ./tomoe update --fastfetch"
@@ -1080,17 +1152,17 @@ update_command() {
     done
 
     if (( ${#requested[@]} == 0 )); then
-        printf '%s\n' "Uso: ./tomoe update --umbriel|--noctalia|--fastfetch|--chrome|--greetd|--monitors|--all"
+        printf '%s\n' "Usage: ./tomoe update --umbriel|--noctalia|--fastfetch|--chrome|--greetd|--monitors|--all"
         return 0
     fi
+
+    start_sudo
 
     setup_logging
     show_header
     printf '\n'
 
-    start_sudo
-
-    TOTAL_STEPS=5
+    TOTAL_STEPS=$((4 + ${#requested[@]}))
     STEP=0
     step_begin "Checking selected modules"
     preflight
