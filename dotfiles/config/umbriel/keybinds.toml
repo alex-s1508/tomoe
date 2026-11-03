@@ -8,135 +8,149 @@
 #  ║  ✦ Keybinds                                                          ║
 #  ╚═════════════════════════════════════════════════════════════════════╝
 
-#  ╭─ ✦ Nota ─────────────────────────────────────────────────────────────
-# This table replaces the internal set; every active keybind must
-# be listed here.
+#  ╭─ ✦ Note ─────────────────────────────────────────────────────────────
+# Every active keybind must be listed in this table.
+# Modifier-only binds (such as "Mod") trigger on release when used alone.
+# "Mod" is Super in a native Umbriel session.
 [keybinds]
 
-#  ╭─ ✦ Apps ──────────────────────────────────────────────────────
-# Default app commands. Update here if you change a default app.
+#  ╭─ ✦ Apps ──────────────────────────────────────────────
 "Mod+Return"            = { action = "spawn kitty", repeat = false }
 "Mod+B"                 = { action = "spawn gtk-launch \"$(xdg-settings get default-web-browser)\"", repeat = false }
+"Mod+C"                 = { action = "spawn code", repeat = false }
 "Mod+E"                 = { action = "spawn nautilus \"$HOME\"", repeat = false }
-"Mod+N"                 = { action = "spawn code", repeat = false }
+
+#  ╭─ ✦ Panels ─────────────────────────────────────────────
+"Mod"                   = { action = "spawn noctalia msg panel-toggle launcher", repeat = false }
 "Mod+V"                 = { action = "spawn noctalia msg panel-toggle clipboard", repeat = false }
 "Mod+Ctrl+W"            = { action = "spawn noctalia msg panel-toggle wallpaper", repeat = false }
-"Mod+Space"            = { action = "spawn noctalia msg panel-toggle launcher", repeat = false }
+"Mod+Escape"            = { action = "spawn noctalia msg panel-toggle control-center", repeat = false }
 
 #  ╭─ ✦ Session ───────────────────────────────────────────────────────────
-"Mod+Q"                 = { action = "window-close", repeat = false }
-"Mod+Escape"            = { action = "spawn noctalia msg panel-toggle control-center", repeat = false }
-"Mod+Ctrl+Escape"       = "session-quit"
+"Mod+Alt+Shift+L"       = { action = "spawn noctalia msg session lock", allow_when_inhibited = true, repeat = false }
+"Mod+Ctrl+Escape"       = { action = "session-quit", repeat = false }
 "Mod+Shift+Escape"      = { action = "shortcuts-inhibit-toggle", allow_when_inhibited = true, repeat = false }
 
 #  ╭─ ✦ Multimedia ───────────────────────────────────────────────────────
-# Volume and brightness use Noctalia OSDs and are safe while locked.
 "XF86AudioRaiseVolume"  = { action = "spawn noctalia msg volume-up", allow_when_locked = true }
 "XF86AudioLowerVolume"  = { action = "spawn noctalia msg volume-down", allow_when_locked = true }
 "XF86AudioMute"         = { action = "spawn noctalia msg volume-mute", allow_when_locked = true, repeat = false }
+"XF86AudioMicMute"      = { action = "spawn noctalia msg mic-mute", allow_when_locked = true, repeat = false }
 "XF86AudioPlay"         = { action = "spawn noctalia msg media toggle", allow_when_locked = true, repeat = false }
-"XF86AudioNext"         = { action = "spawn noctalia msg media next", allow_when_locked = true }
-"XF86AudioPrev"         = { action = "spawn noctalia msg media previous", allow_when_locked = true }
+"XF86AudioNext"         = { action = "spawn noctalia msg media next", allow_when_locked = true, repeat = false }
+"XF86AudioPrev"         = { action = "spawn noctalia msg media previous", allow_when_locked = true, repeat = false }
 "XF86MonBrightnessUp"   = { action = "spawn noctalia msg brightness-up", allow_when_locked = true }
 "XF86MonBrightnessDown" = { action = "spawn noctalia msg brightness-down", allow_when_locked = true }
 
 #  ╭─ ✦ Focus ─────────────────────────────────────────────────────────────
-"Mod+Left"              = "window-focus-left"
-"Mod+Down"              = "window-focus-down"
-"Mod+Up"                = "window-focus-up"
-"Mod+Right"             = "window-focus-right"
-"Mod+H"                 = "window-focus-left"
-"Mod+J"                 = "window-focus-down"
-"Mod+K"                 = "window-focus-up"
-"Mod+L"                 = "window-focus-right"
-"Mod+F1"                = "window-focus-next"
+"Mod+Left"              = "window-focus-or-output-left"
+"Mod+Down"              = "window-focus-or-output-down"
+"Mod+Up"                = "window-focus-or-output-up"
+"Mod+Right"             = "window-focus-or-output-right"
 
-#  ╭─ ✦ Movement ─────────────────────────────────────────────────────
+"Mod+H"                 = "window-focus-or-output-left"
+"Mod+J"                 = "window-focus-or-output-down"
+"Mod+K"                 = "window-focus-or-output-up"
+"Mod+L"                 = "window-focus-or-output-right"
+
+#  ╭─ ✦ Movement ─────────────────────────────────────────────
 "Mod+Shift+Left"        = "column-move-left"
 "Mod+Shift+Down"        = "window-move-down"
 "Mod+Shift+Up"          = "window-move-up"
 "Mod+Shift+Right"       = "column-move-right"
+
 "Mod+Shift+H"           = "column-move-left"
 "Mod+Shift+J"           = "window-move-down"
 "Mod+Shift+K"           = "window-move-up"
 "Mod+Shift+L"           = "column-move-right"
 
-# Movement between monitors (Wayland outputs).
-"Mod+Ctrl+Left"         = "window-move-to-output-left"
-"Mod+Ctrl+Right"        = "window-move-to-output-right"
-"Mod+Ctrl+Up"            = "window-move-to-output-up"
-"Mod+Ctrl+Down"          = "window-move-to-output-down"
+"Mod+Ctrl+Left"         = { action = "window-move-to-output-left", repeat = false }
+"Mod+Ctrl+Right"        = { action = "window-move-to-output-right", repeat = false }
+"Mod+Ctrl+Up"           = { action = "window-move-to-output-up", repeat = false }
+"Mod+Ctrl+Down"         = { action = "window-move-to-output-down", repeat = false }
+
+"Mod+Ctrl+H"            = { action = "window-move-to-output-left", repeat = false }
+"Mod+Ctrl+J"            = { action = "window-move-to-output-down", repeat = false }
+"Mod+Ctrl+K"            = { action = "window-move-to-output-up", repeat = false }
+"Mod+Ctrl+L"            = { action = "window-move-to-output-right", repeat = false }
 
 #  ╭─ ✦ Windows ──────────────────────────────────────────────────────────
+"Mod+Q"                 = { action = "window-close", repeat = false }
+"Mod+Shift+Q"           = { action = "window-kill", repeat = false }
+
 "Mod+T"                 = { action = "window-toggle-floating", repeat = false }
 "Mod+Shift+T"           = { action = "window-focus-switch-floating", repeat = false }
 "Mod+P"                 = { action = "window-toggle-pinned", repeat = false }
 
-# Mod+F fills the usable area without fullscreen (same as double-clicking the title bar). Mod+Shift+F toggles true fullscreen.
 "Mod+F"                 = { action = "window-toggle-maximize", repeat = false }
 "Mod+Shift+F"           = { action = "window-toggle-fullscreen", repeat = false }
 "Mod+Ctrl+F"            = { action = "window-toggle-maximize-to-edges", repeat = false }
 
-"Mod+R"                 = "window-cycle-primary-extent"
-"Mod+Shift+R"           = "window-cycle-primary-extent-back"
-"Mod+Comma"             = "window-consume-left"
-"Mod+Period"            = "window-consume-right"
-"Mod+Ctrl+Comma"        = "window-consume-from-left"
-"Mod+Ctrl+Period"       = "window-consume-from-right"
+"Mod+R"                 = { action = "window-cycle-primary-extent", repeat = false }
+"Mod+Shift+R"           = { action = "window-cycle-primary-extent-back", repeat = false }
 
-# Requires layout.mode = "dwindle".
-# "Mod+Alt+T"             = "layout-toggle-split"
+"Mod+Comma"             = { action = "window-consume-left", repeat = false }
+"Mod+Period"            = { action = "window-consume-right", repeat = false }
+"Mod+Ctrl+Comma"        = { action = "window-consume-from-left", repeat = false }
+"Mod+Ctrl+Period"       = { action = "window-consume-from-right", repeat = false }
+
 "Mod+W"                 = { action = "column-toggle-tabbed", repeat = false }
-"Mod+Alt+Right"         = "column-focus-tab-next"
 "Mod+Alt+Left"          = "column-focus-tab-previous"
+"Mod+Alt+Right"         = "column-focus-tab-next"
+
+"Mod+Alt+H"             = "column-focus-tab-previous"
+"Mod+Alt+L"             = "column-focus-tab-next"
+
 "Mod+WheelUp"           = "window-focus-left"
 "Mod+WheelDown"         = "window-focus-right"
-
-# Windows-style window switcher: hold Alt and use Tab/Shift+Tab.
 "Alt+Tab"               = { action = "spawn noctalia msg window-switcher hold", repeat = false }
+"Alt+Shift+Tab"         = { action = "spawn noctalia msg window-switcher hold reverse", repeat = false }
 
 #  ╭─ ✦ Workspaces ───────────────────────────────────────────────────────
-# Moves the whole workspace, keeping its name, layout and windows.
-# "Mod+Ctrl+Page_Down"    = "workspace-move-to-output-next"
-# "Mod+Ctrl+Page_Up"      = "workspace-move-to-output-previous"
-# "Mod+Ctrl+W"            = "workspace-move-to-output current WEB --output DP-1"
+"Mod+1"                 = { action = "workspace-switch 1", repeat = false }
+"Mod+2"                 = { action = "workspace-switch 2", repeat = false }
+"Mod+3"                 = { action = "workspace-switch 3", repeat = false }
+"Mod+4"                 = { action = "workspace-switch 4", repeat = false }
+"Mod+5"                 = { action = "workspace-switch 5", repeat = false }
+"Mod+6"                 = { action = "workspace-switch 6", repeat = false }
+"Mod+7"                 = { action = "workspace-switch 7", repeat = false }
+"Mod+8"                 = { action = "workspace-switch 8", repeat = false }
+"Mod+9"                 = { action = "workspace-switch 9", repeat = false }
 
-"Mod+1"                 = "workspace-switch 1"
-"Mod+2"                 = "workspace-switch 2"
-"Mod+3"                 = "workspace-switch 3"
-"Mod+4"                 = "workspace-switch 4"
-"Mod+5"                 = "workspace-switch 5"
-"Mod+6"                 = "workspace-switch 6"
-"Mod+7"                 = "workspace-switch 7"
-"Mod+8"                 = "workspace-switch 8"
-"Mod+9"                 = "workspace-switch 9"
+"Mod+Shift+1"           = { action = "window-move-to-workspace 1", repeat = false }
+"Mod+Shift+2"           = { action = "window-move-to-workspace 2", repeat = false }
+"Mod+Shift+3"           = { action = "window-move-to-workspace 3", repeat = false }
+"Mod+Shift+4"           = { action = "window-move-to-workspace 4", repeat = false }
+"Mod+Shift+5"           = { action = "window-move-to-workspace 5", repeat = false }
+"Mod+Shift+6"           = { action = "window-move-to-workspace 6", repeat = false }
+"Mod+Shift+7"           = { action = "window-move-to-workspace 7", repeat = false }
+"Mod+Shift+8"           = { action = "window-move-to-workspace 8", repeat = false }
+"Mod+Shift+9"           = { action = "window-move-to-workspace 9", repeat = false }
 
-"Mod+Shift+1"           = "window-move-to-workspace 1"
-"Mod+Shift+2"           = "window-move-to-workspace 2"
-"Mod+Shift+3"           = "window-move-to-workspace 3"
-"Mod+Shift+4"           = "window-move-to-workspace 4"
-"Mod+Shift+5"           = "window-move-to-workspace 5"
-"Mod+Shift+6"           = "window-move-to-workspace 6"
-"Mod+Shift+7"           = "window-move-to-workspace 7"
-"Mod+Shift+8"           = "window-move-to-workspace 8"
-"Mod+Shift+9"           = "window-move-to-workspace 9"
-
-"Mod+Ctrl+1"            = "window-move-to-workspace-silent 1"
-"Mod+Ctrl+2"            = "window-move-to-workspace-silent 2"
-"Mod+Ctrl+3"            = "window-move-to-workspace-silent 3"
-"Mod+Ctrl+4"            = "window-move-to-workspace-silent 4"
-"Mod+Ctrl+5"            = "window-move-to-workspace-silent 5"
-"Mod+Ctrl+6"            = "window-move-to-workspace-silent 6"
-"Mod+Ctrl+7"            = "window-move-to-workspace-silent 7"
-"Mod+Ctrl+8"            = "window-move-to-workspace-silent 8"
-"Mod+Ctrl+9"            = "window-move-to-workspace-silent 9"
-
+"Mod+Ctrl+1"            = { action = "window-move-to-workspace-silent 1", repeat = false }
+"Mod+Ctrl+2"            = { action = "window-move-to-workspace-silent 2", repeat = false }
+"Mod+Ctrl+3"            = { action = "window-move-to-workspace-silent 3", repeat = false }
+"Mod+Ctrl+4"            = { action = "window-move-to-workspace-silent 4", repeat = false }
+"Mod+Ctrl+5"            = { action = "window-move-to-workspace-silent 5", repeat = false }
+"Mod+Ctrl+6"            = { action = "window-move-to-workspace-silent 6", repeat = false }
+"Mod+Ctrl+7"            = { action = "window-move-to-workspace-silent 7", repeat = false }
+"Mod+Ctrl+8"            = { action = "window-move-to-workspace-silent 8", repeat = false }
+"Mod+Ctrl+9"            = { action = "window-move-to-workspace-silent 9", repeat = false }
 
 #  ╭─ ✦ Scratchpads ──────────────────────────────────────────────────────
-# Mod+S opens or closes the active scratchpad.
-"Mod+S"                 = { action = "scratchpad-toggle", repeat = false }
-"Mod+Ctrl+S"            = { action = "window-move-to-scratchpad", repeat = false }
+"Mod+Space"             = { action = "scratchpad-toggle", repeat = false }
+"Mod+Shift+Space"       = { action = "window-move-to-scratchpad", repeat = false }
+"Mod+Ctrl+Space"        = { action = "window-restore-from-scratchpad", repeat = false }
+
+"Mod+Ctrl+Tab"          = { action = "scratchpad-focus-next", repeat = false }
+"Mod+Alt+Space"         = { action = "scratchpad-window-show-next", repeat = false }
+"Mod+Alt+Shift+Space"   = { action = "scratchpad-window-show-previous", repeat = false }
+
+#  ╭─ ✦ Screenshots ──────────────────────────────────────────────────────
 "Mod+Shift+S"           = { action = "spawn noctalia msg screenshot-region --directory \"$(xdg-user-dir PICTURES)/Screenshots\" --save-to-file --copy-to-clipboard", repeat = false }
 
 #  ╭─ ✦ Overview ─────────────────────────────────────────────────────────
 "Mod+Tab"               = { action = "overview-toggle", repeat = false }
+
+#  ╭─ ✦ Help ─────────────────────────────────────────────────────────────
+"Mod+Shift+Slash"       = { action = "cheatsheet-toggle", repeat = false }

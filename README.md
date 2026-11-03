@@ -9,7 +9,7 @@
 # How to install
 
 ```sh
-git clone https://github.com/alex-s1508/tomoe.git
+git clone https://github.com/silvalexx/tomoe.git
 cd tomoe
 ./tomoe install
 ```
@@ -32,15 +32,19 @@ Commands:
 
 | Keybind | Action |
 |---|---|
+| `Mod` | Launcher |
 | `Mod+Return` | Terminal (kitty) |
 | `Mod+B` | Browser |
-| `Mod+E` | Files (Nautilus) |
-| `Mod+N` | VSCode |
-| `Mod+Space` | Launcher |
-| `Mod+S` / `Mod+Ctrl+S` | Scratchpad / send window |
+| `Mod+C` | VS Code |
+| `Mod+E` | Explorer (Nautilus) |
+| `Mod+V` | Clipboard |
+| `Mod+Ctrl+W` | Wallpaper |
+| `Mod+Space` | Scratchpad |
 | `Mod+Shift+S` | Screenshot |
 | `Mod+Tab` | Overview |
-| `Mod+F` | Maximize |
+| `Mod+Shift+/` | Keybinds |
+| `Mod+F` | Fit |
+| `Mod+Shift+F` | Fullscreen |
 
 ## Screenshots
 
