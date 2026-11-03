@@ -1,0 +1,6 @@
+# noctalia-greeter greeter.toml (declarative; Nix-safe; UI and Sync never write this)
+# Restrict the login greeter to the primary output when that output is available.
+# If the configured output is unavailable, Noctalia Greeter falls back to
+# all connected outputs.
+[output]
+name = "__PRIMARY_OUTPUT__"

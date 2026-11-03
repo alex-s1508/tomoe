@@ -808,6 +808,72 @@ configure_noctalia() {
     configure_desktop_defaults
 }
 
+detect_primary_output() {
+    local outputs_file="$dotfiles/config/umbriel/outputs.toml"
+    local primary=""
+    if [[ -r "$outputs_file" ]]; then
+        primary="$(awk '
+            function reset_state() { current=""; has_zero=0 }
+            /^\[output\./ {
+                if (current != "" && has_zero) { print current; found=1; exit }
+                reset_state()
+                line=$0
+                sub(/^\[output\./, "", line)
+                sub(/\]$/, "", line)
+                gsub(/"/, "", line)
+                current=line
+                next
+            }
+            /^[[:space:]]*position[[:space:]]*=/ {
+                if ($0 ~ /\[[[:space:]]*0[[:space:]]*,[[:space:]]*0[[:space:]]*\]/) {
+                    has_zero=1
+                }
+            }
+            END {
+                if (current != "" && has_zero && !found) {
+                    print current
+                }
+            }
+        ' "$outputs_file")"
+        if [[ -z "$primary" ]]; then
+            primary="$(awk '
+                /^\[output\./ {
+                    line=$0
+                    sub(/^\[output\./, "", line)
+                    sub(/\]$/, "", line)
+                    gsub(/"/, "", line)
+                    print line
+                    exit
+                }
+            ' "$outputs_file")"
+        fi
+    fi
+    if [[ -z "$primary" ]]; then
+        local candidate external=""
+        local status_file
+        for status_file in /sys/class/drm/card*-*/status; do
+            [[ -r "$status_file" ]] || continue
+            [[ "$(cat "$status_file" 2>/dev/null)" == "connected" ]] || continue
+            candidate="$(basename "$(dirname "$status_file")")"
+            candidate="${candidate#card*-}"
+            if [[ -z "$primary" ]]; then
+                primary="$candidate"
+            fi
+            case "$candidate" in
+                HDMI-*|DP-*|DVI-*|VGA-*)
+                    if [[ -z "$external" ]]; then
+                        external="$candidate"
+                    fi
+                    ;;
+            esac
+        done
+        if [[ -n "$external" ]]; then
+            primary="$external"
+        fi
+    fi
+    printf '%s' "$primary"
+}
+
 configure_greetd() {
     if ! id -u greeter >/dev/null 2>&1; then
         run_logged sudo useradd --system --home-dir /var/lib/greetd --create-home \
@@ -821,6 +887,19 @@ configure_greetd() {
     backup_system_path /etc/greetd/config.toml
     run_logged sudo install -Dm644 "$dotfiles/config/greetd/config.toml" /etc/greetd/config.toml \
         || die "$msg_install_failed /etc/greetd/config.toml"
+    primary_output="$(detect_primary_output || true)"
+    if [[ -n "$primary_output" && -f "$dotfiles/config/noctalia-greeter/greeter.toml" ]]; then
+        local generated_greeter=""
+        generated_greeter="$(mktemp)"
+        sed "s/__PRIMARY_OUTPUT__/$primary_output/g" "$dotfiles/config/noctalia-greeter/greeter.toml" >"$generated_greeter"
+        run_logged sudo install -Dm644 "$generated_greeter" /var/lib/noctalia-greeter/greeter.toml \
+            || warn "$msg_install_failed /var/lib/noctalia-greeter/greeter.toml"
+        rm -f "$generated_greeter"
+        run_logged sudo chown greeter:greeter /var/lib/noctalia-greeter/greeter.toml \
+            || warn "$msg_greetd_enable_failed"
+        run_logged sudo chmod 0644 /var/lib/noctalia-greeter/greeter.toml \
+            || warn "$msg_install_failed /var/lib/noctalia-greeter/greeter.toml"
+    fi
     run_logged sudo systemctl enable greetd \
         || warn "$msg_greetd_enable_failed"
 }
