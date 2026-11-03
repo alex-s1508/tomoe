@@ -153,8 +153,9 @@ path = "__WALLPAPER__"
 
 #  ╭─ ✦ Widgets ──────────────────────────────────────────────────────────
 [widget.audio_visualizer]
-bands = 14
+bands = 12
 interactive = true
+scale = 0.90000000000000002
 
 [widget.audio_visualizer.actions]
 left = "panel-toggle control-center media"
