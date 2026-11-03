@@ -22,7 +22,7 @@ default_floating = true
 default_maximize = false
 default_position = { x = 20, y = 20, anchor = "bottom_right" }
 
-#  ╭─ ✦ Exemplos ─────────────────────────────────────────────────────────
+#  ╭─ ✦ Examples ─────────────────────────────────────────────────────────
 # Keeps game menus inside the window; a focus or workspace shortcut releases the pointer.
 # [[window_rule]]
 # match.app_id = "^steam_app_.*$"

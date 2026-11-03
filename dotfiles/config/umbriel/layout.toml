@@ -16,7 +16,7 @@ mode = "scrolling"
 gap = 8
 extent_presets = [0.333, 0.5, 0.667]
 # Mod+F and top double-click fill the usable area without struts, gaps, or borders. "column" limits filling to that column.
-client_maximize = "edges"
+client_maximize = "column"
 
 #  ╭─ ✦ Stacking ─────────────────────────────────────────────────────
 [layout.stacking]
@@ -28,7 +28,7 @@ default_extent_fraction = 0.5
 # Centers the chosen window in the overview, like column-center.
 center_on_overview_select = true
 
-#  ╭─ ✦ Abas ─────────────────────────────────────────────────────────────
+#  ╭─ ✦ Tabs ─────────────────────────────────────────────────────────────
 # A tab group shows one window at a time below a title bar. Mod+W groups adjacent stacked windows;
 # Mod+Shift+J/K move tabs/windows. Click, scroll, or drag titles to switch, reorder, or close.
 [layout.tabs]
