@@ -89,8 +89,8 @@
 "Mod+R"                 = { action = "window-cycle-primary-extent", repeat = false }
 "Mod+Shift+R"           = { action = "window-cycle-primary-extent-back", repeat = false }
 
-"Mod+Comma"             = { action = "window-consume-left", repeat = false }
-"Mod+Period"            = { action = "window-consume-right", repeat = false }
+"Mod+Comma"             = { action = "window-consume-or-expel-left", repeat = false }
+"Mod+Period"            = { action = "window-consume-or-expel-right", repeat = false }
 "Mod+Ctrl+Comma"        = { action = "window-consume-from-left", repeat = false }
 "Mod+Ctrl+Period"       = { action = "window-consume-from-right", repeat = false }
 
