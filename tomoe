@@ -575,7 +575,7 @@ copy_models() {
     local dest_kitty="$HOME/.config/kitty/kitty.conf"
     local dest_qt5="$HOME/.config/qt5ct/qt5ct.conf"
     local dest_qt6="$HOME/.config/qt6ct/qt6ct.conf"
-    local dest_environment="$HOME/.config/environment.d/90-qtct.conf"
+    local dest_environment_dir="$HOME/.config/environment.d"
 
     [[ -f "$dotfiles/config/btop/btop.conf" ]] && install_file "$dotfiles/config/btop/btop.conf" "$dest_btop"
     [[ -f "$dotfiles/config/gtk-3.0/gtk.css" ]] && install_file "$dotfiles/config/gtk-3.0/gtk.css" "$dest_gtk3"
@@ -583,7 +583,12 @@ copy_models() {
     [[ -f "$dotfiles/config/kitty/kitty.conf" ]] && install_file "$dotfiles/config/kitty/kitty.conf" "$dest_kitty"
     [[ -f "$dotfiles/config/qt5ct/qt5ct.conf" ]] && install_file "$dotfiles/config/qt5ct/qt5ct.conf" "$dest_qt5"
     [[ -f "$dotfiles/config/qt6ct/qt6ct.conf" ]] && install_file "$dotfiles/config/qt6ct/qt6ct.conf" "$dest_qt6"
-    [[ -f "$dotfiles/config/environment.d/90-qtct.conf" ]] && install_file "$dotfiles/config/environment.d/90-qtct.conf" "$dest_environment"
+    mkdir -p "$dest_environment_dir"
+    local env_src
+    for env_src in "$dotfiles"/config/environment.d/*.conf; do
+        [[ -f "$env_src" ]] || continue
+        install_file "$env_src" "$dest_environment_dir/$(basename "$env_src")"
+    done
 
     if [[ "$dry_run" == false ]]; then
         if [[ -f "$dest_qt5" ]]; then
@@ -703,7 +708,42 @@ write_nautilus_bookmarks() {
     log "nautilus bookmarks written: $dest"
 }
 
+configure_theme() {
+    if [[ "$dry_run" == true ]]; then
+        log "[dry-run] systemctl --user daemon-reexec"
+        log "[dry-run] systemctl --user set-environment XCURSOR_THEME=Bibata-Modern-Classic XCURSOR_SIZE=24"
+    else
+        run_logged systemctl --user daemon-reexec || warn "could not reexec systemd user manager"
+        run_logged systemctl --user set-environment XCURSOR_THEME=Bibata-Modern-Classic XCURSOR_SIZE=24 || true
+    fi
+
+    if command -v gsettings >/dev/null 2>&1; then
+        if [[ "$dry_run" == true ]]; then
+            log "[dry-run] gsettings icon-theme -> Papirus-Dark"
+            log "[dry-run] gsettings cursor-theme -> Bibata-Modern-Classic"
+            log "[dry-run] gsettings cursor-size -> 24"
+        else
+            run_logged gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark' \
+                || warn "could not set icon theme"
+            run_logged gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Modern-Classic' \
+                || warn "could not set cursor theme"
+            run_logged gsettings set org.gnome.desktop.interface cursor-size 24 \
+                || warn "could not set cursor size"
+        fi
+    fi
+
+    if command -v papirus-folders >/dev/null 2>&1; then
+        if [[ "$dry_run" == true ]]; then
+            log "[dry-run] papirus-folders -t Papirus-Dark -C white"
+        else
+            run_logged sudo papirus-folders -t Papirus-Dark -C white \
+                || warn "could not recolor Papirus folders"
+        fi
+    fi
+}
+
 configure_desktop_defaults() {
+    configure_theme
     if command -v xdg-settings >/dev/null 2>&1; then
         run_logged xdg-settings set default-web-browser google-chrome.desktop \
             || warn "could not set default browser"
