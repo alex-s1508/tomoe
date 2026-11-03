@@ -5,7 +5,7 @@
 #       ⠀⠸⠿⠀⠀⠀⠀⠙⠿⠿⠿⠋⠀⠀⠀⠿⠇⠻⠟⠸⠿⠀⠀⠀⠈⠻⠿⡿⠋⠀⠀⠀⠿⠿⠿⠇⠀⠀⠀⠀⠀⠀⢸⣧⣤⣤⣤⣤⣿⠀⠀⠀⠀
 #
 #  ╔═════════════════════════════════════════════════════════════════════╗
-#  ║  ✦ Noctalia (export completo, portable)                               ║
+#  ║  ✦ Noctalia (full export, portable)                               ║
 #  ╚═════════════════════════════════════════════════════════════════════╝
 # Exported from ~/.local/state/noctalia/settings.toml.
 # The installer replaces the __WALLPAPER__ and __AVATAR__ placeholders.
@@ -39,6 +39,12 @@ avatar_path = "__AVATAR__"
 mode = "dark"
 source = "wallpaper"
 wallpaper_scheme = "m3-monochrome"
+
+    [theme.templates]
+    builtin_ids = [ "btop", "gtk3", "gtk4", "kitty", "qt", "umbriel" ]
+    community_ids = [ ]
+    enable_builtin_templates = true
+    enable_community_templates = true
 
 #  ╭─ ✦ Brightness (DDC/CI) ──────────────────────────────────────────────
 [brightness]
@@ -127,7 +133,7 @@ auto_locate = true
 [plugins]
 enabled = [ "noctalia/umbriel-companion" ]
 
-#  ╭─ ✦ Papel of parede ──────────────────────────────────────────────────
+#  ╭─ ✦ Wallpaper ──────────────────────────────────────────────────
 [wallpaper.last]
 path = "__WALLPAPER__"
 
@@ -143,7 +149,13 @@ path = "__WALLPAPER__"
 #  ╭─ ✦ Widgets ──────────────────────────────────────────────────────────
 [widget.audio_visualizer]
 bands = 14
-interactive = false
+interactive = true
+
+[widget.audio_visualizer.actions]
+left = "panel-toggle control-center media"
+right = "media toggle"
+back = "media previous"
+forward = "media next"
 
 [widget.bar]
 type = "noctalia/umbriel-companion:bar"
@@ -190,6 +202,6 @@ show_label = false
 show_condition = false
 show_temperature = false
 
-#  ╭─ ✦ Centro of controle ───────────────────────────────────────────────
+#  ╭─ ✦ Control Center ───────────────────────────────────────────────
 [control_center]
 sidebar_section = "none"
