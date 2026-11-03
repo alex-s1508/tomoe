@@ -11,8 +11,8 @@
 #  ╭─ ✦ Modules ──────────────────────────────────────────────────────────
 [include]
 files = [
-  "general.toml",
   "autostart.toml",
+  "general.toml",
   "events.toml",
   "screencast.toml",
   "outputs.toml",
@@ -27,10 +27,10 @@ files = [
   "scratchpads.toml",
   "rules.toml",
   "overview.toml",
-  "noctalia.toml",
+  "noctalia-rules.toml",
 ]
 
 #  ╭─ ✦ Optional ────────────────────────────────────────────────────────
 # Optional includes, loaded only if they exist.
 [include.optional]
-files = []
+files = ["noctalia.toml"]
