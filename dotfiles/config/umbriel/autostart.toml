@@ -9,5 +9,7 @@
 #  ╚═════════════════════════════════════════════════════════════════════╝
 
 [general]
-# Starts the Noctalia shell along with the compositor.
-autostart = ["noctalia"]
+autostart = [
+  "noctalia",
+  "fcitx5 -d",
+]

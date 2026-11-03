@@ -21,6 +21,14 @@ xwayland_native_resolution = true
 # Primary output for X11 games, using a name from `umbriel outputs`.
 # xwayland_primary_output = "DP-1"
 
+#  ╭─ ✦ Input method (fcitx5) ────────────────────────────────────────────
+# Exposes fcitx5 through the Wayland/XWayland and toolkit input paths.
+[environment]
+XMODIFIERS = "@im=fcitx"
+GTK_IM_MODULE = "fcitx"
+QT_IM_MODULE = "fcitx"
+SDL_IM_MODULE = "fcitx"
+
 #  ╭─ ✦ Windows ──────────────────────────────────────────────────────────
 # Unsynchronized NVIDIA outputs wait for the GPU by default.
 # nvidia_sync_workaround = false
