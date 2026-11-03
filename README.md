@@ -37,6 +37,8 @@ Commands:
 | `Mod+B` | Browser |
 | `Mod+C` | VS Code |
 | `Mod+E` | Explorer (Nautilus) |
+| `Mod+M` | Music Player (Limusic) |
+| `Mod+N` | Notes |
 | `Mod+V` | Clipboard |
 | `Mod+Ctrl+W` | Wallpaper |
 | `Mod+Space` | Scratchpad |

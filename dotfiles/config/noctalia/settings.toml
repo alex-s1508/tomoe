@@ -56,6 +56,7 @@ center = [ "taskbar" ]
 contact_shadow = true
 end = [ "privacy", "tray", "group:g4", "group:g2" ]
 margin_ends = 0
+padding = 4
 position = "left"
 radius_bottom_left = 0
 radius_top_left = 0
@@ -130,8 +131,12 @@ behavior_order = [ "lock", "screen-off", "lock-and-suspend" ]
 auto_locate = true
 
 #  ╭─ ✦ Plugins ──────────────────────────────────────────────────────────
+[plugin_settings."noctalia/notes"]
+panel_open_near_click = true
+panel_position = "auto"
+
 [plugins]
-enabled = [ "noctalia/umbriel-companion" ]
+enabled = [ "noctalia/umbriel-companion", "noctalia/notes" ]
 
 #  ╭─ ✦ Wallpaper ──────────────────────────────────────────────────
 [wallpaper.last]
@@ -180,6 +185,7 @@ show_label = false
 show_label = false
 
 [widget.media]
+rotate_album_art = true
 scale = 1.1000000000000001
 
 [widget.network]

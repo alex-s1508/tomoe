@@ -46,5 +46,8 @@ fcitx5-configtool
 fcitx5-gtk
 fcitx5-qt
 
+#  ╭─ ✦ Media player (Limusic dependency) ─────────────────────────────────
+mpv
+
 #  ╭─ ✦ AUR ──────────────────────────────────────────────────────────────
 yay

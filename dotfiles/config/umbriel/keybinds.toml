@@ -19,12 +19,14 @@
 "Mod+B"                 = { action = "spawn gtk-launch \"$(xdg-settings get default-web-browser)\"", repeat = false }
 "Mod+C"                 = { action = "spawn code", repeat = false }
 "Mod+E"                 = { action = "spawn nautilus \"$HOME\"", repeat = false }
+"Mod+M"                 = { action = "spawn limusic-app", repeat = false }
 
 #  ╭─ ✦ Panels ─────────────────────────────────────────────
 "Mod"                   = { action = "spawn noctalia msg panel-toggle launcher", repeat = false }
 "Mod+V"                 = { action = "spawn noctalia msg panel-toggle clipboard", repeat = false }
 "Mod+Ctrl+W"            = { action = "spawn noctalia msg panel-toggle wallpaper", repeat = false }
 "Mod+Escape"            = { action = "spawn noctalia msg panel-toggle control-center", repeat = false }
+"Mod+N"                 = { action = "spawn noctalia msg panel-toggle noctalia/notes:panel", repeat = false }
 
 #  ╭─ ✦ Session ───────────────────────────────────────────────────────────
 "Mod+Alt+Shift+L"       = { action = "spawn noctalia msg session lock", allow_when_inhibited = true, repeat = false }

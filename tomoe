@@ -1006,6 +1006,7 @@ deferred_refresh() {
 
     if [[ "$need_noctalia" == true ]] && command -v noctalia >/dev/null 2>&1; then
         run_quiet noctalia msg plugins enable noctalia/umbriel-companion || warn "noctalia: could not enable Umbriel Companion"
+        run_quiet noctalia msg plugins enable noctalia/notes || warn "noctalia: could not enable Notes"
         run_quiet noctalia msg templates-apply || warn "noctalia: could not apply theme templates"
         run_quiet noctalia msg config-reload || warn "noctalia: could not reload config"
         # greeter-sync is executed in the background by Noctalia. Retry once after

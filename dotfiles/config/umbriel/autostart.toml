@@ -12,4 +12,6 @@
 autostart = [
   "noctalia",
   "fcitx5 -d",
+  "discord --start-minimized",
+  "steam -silent",
 ]
