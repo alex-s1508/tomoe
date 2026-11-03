@@ -17,6 +17,7 @@ noctalia
 #  ╭─ ✦ Terminal, files and editor ───────────────────────────────────────
 kitty
 nautilus
+btop
 
 #  ╭─ ✦ Optional VSCode dependencies ─────────────────────────────────
 glib2
@@ -29,8 +30,20 @@ fastfetch
 #  ╭─ ✦ Noctalia / DDC ───────────────────────────────────────────────────
 ddcutil
 
+#  ╭─ ✦ Noctalia model theming ────────────────────────────────────────────
+adw-gtk-theme
+qt5ct
+qt6ct
+
 #  ╭─ ✦ Session (greetd) ──────────────────────────────────────────────────
 noctalia-greeter
+
+#  ╭─ ✦ Input method (fcitx5) ─────────────────────────────────────────────
+fcitx5
+fcitx5-mozc
+fcitx5-configtool
+fcitx5-gtk
+fcitx5-qt
 
 #  ╭─ ✦ AUR ──────────────────────────────────────────────────────────────
 yay
