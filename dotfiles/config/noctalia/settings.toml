@@ -42,7 +42,7 @@ wallpaper_scheme = "m3-monochrome"
 
     [theme.templates]
     builtin_ids = [ "btop", "gtk3", "gtk4", "kitty", "qt", "umbriel" ]
-    community_ids = [ ]
+    community_ids = [ "fcitx5" ]
     enable_builtin_templates = true
     enable_community_templates = true
 
