@@ -11,6 +11,7 @@
 #  ╭─ ✦ Session ───────────────────────────────────────────────────────────
 [general]
 # autostart = ["noctalia"]
+show_cheatsheet = false
 
 #  ╭─ ✦ XWayland ─────────────────────────────────────────────────────────
 xwayland = true

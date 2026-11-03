@@ -674,14 +674,15 @@ write_nautilus_bookmarks() {
         xdg-user-dirs-update >/dev/null 2>&1 || true
     fi
 
-    local pictures downloads documents music videos
+    local pictures downloads documents music videos projects
     pictures="$(xdg-user-dir PICTURES 2>/dev/null || printf '%s/Pictures' "$HOME")"
     downloads="$(xdg-user-dir DOWNLOAD 2>/dev/null || printf '%s/Downloads' "$HOME")"
     documents="$(xdg-user-dir DOCUMENTS 2>/dev/null || printf '%s/Documents' "$HOME")"
     music="$(xdg-user-dir MUSIC 2>/dev/null || printf '%s/Music' "$HOME")"
+    projects="$(xdg-user-dir PROJECTS 2>/dev/null || printf '%s/Projects' "$HOME")"
     videos="$(xdg-user-dir VIDEOS 2>/dev/null || printf '%s/Videos' "$HOME")"
 
-    local -a dirs=( "$downloads" "$documents" "$pictures" "$music" "$videos" )
+    local -a dirs=( "$downloads" "$documents" "$pictures" "$music" "$projects" "$videos" )
     local dest="$HOME/.config/gtk-3.0/bookmarks"
     local dir uri label
 
