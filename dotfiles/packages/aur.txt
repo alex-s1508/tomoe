@@ -11,5 +11,7 @@
 # Installed with `yay -S --needed`.
 
 #  ╭─ ✦ AUR packages ───────────────────────────────────────────────────
+bibata-cursor-theme-bin
+papirus-folders-git
 google-chrome
 visual-studio-code-bin

@@ -34,6 +34,7 @@ ddcutil
 adw-gtk-theme
 qt5ct
 qt6ct
+papirus-icon-theme
 
 #  ╭─ ✦ Session (greetd) ──────────────────────────────────────────────────
 noctalia-greeter
