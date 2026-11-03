@@ -7,7 +7,6 @@
 //  Tomoe Fastfetch (adapted LierB ARCH preset)
 
 {
-  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
   "logo": {
     "source": "~/.config/fastfetch/tomoe-fastfetch.png",
     "type": "kitty",
@@ -60,14 +59,14 @@
       "key": "\ue385 ",
       "format": "{2}h {3}m"
     },
-    {
-      "type": "media",
-      "key": "\udb81\udf5a "
-    },
+//    {
+//      "type": "media",
+//      "key": "\udb81\udf5a "
+//    },
     "break",
     {
       "type": "colors",
-      "symbol": "diamond"
+      "symbol": "circle"
     },
     "break",
     "break"
